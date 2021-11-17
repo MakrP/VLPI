@@ -1,0 +1,1 @@
+package lpnu.vlpi.avpz.dto.task.enums;public enum TaskStatus {    COMPLETED,    UNCOMPLETED}
