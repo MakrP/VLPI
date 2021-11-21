@@ -37,6 +37,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public UserModel register(UserModel user) {
+        user.setUid(String.valueOf(userRepository.getMaxUid() + 1));
         return userRepository.save(user);
     }
 
@@ -64,5 +65,9 @@ public class DefaultUserService implements UserService {
         }
         UserModel user = userModel.get();
         return user;
+    }
+
+    public long getMaxUid() {
+        return userRepository.getMaxUid();
     }
 }
