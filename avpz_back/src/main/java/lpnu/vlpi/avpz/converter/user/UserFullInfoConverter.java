@@ -5,9 +5,12 @@ import lpnu.vlpi.avpz.model.UserModel;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+
 
 @Component
 public class UserFullInfoConverter implements Converter<UserModel, FullUserInfoDto> {
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
     @Override
     public FullUserInfoDto convert(UserModel source) {
 
@@ -17,7 +20,7 @@ public class UserFullInfoConverter implements Converter<UserModel, FullUserInfoD
         dto.setSurname(source.getSurname());
         dto.setLogin(source.getLogin());
         dto.setEmail(source.getEmail());
-        dto.setBirthday(source.getBirthDate());
+        dto.setBirthday(simpleDateFormat.format(source.getBirthDate()));
         return dto;
     }
 }

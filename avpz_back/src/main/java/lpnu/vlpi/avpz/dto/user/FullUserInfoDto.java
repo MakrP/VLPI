@@ -13,7 +13,7 @@ public class FullUserInfoDto {
     private String login;
     private String surname;
     private String email;
-    private Date birthday;
+    private String birthday;
 }
 
 
