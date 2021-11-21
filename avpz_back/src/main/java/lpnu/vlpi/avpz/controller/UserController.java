@@ -8,7 +8,6 @@ import lpnu.vlpi.avpz.service.UserService;
 import lpnu.vlpi.avpz.service.exceptions.UserNotFountException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, allowCredentials = "true")
 @RequestMapping("/vlpi/v1/users/")
 public class UserController {
 
@@ -49,7 +48,7 @@ public class UserController {
 
     @GetMapping("/main")
     public ResponseEntity<MainUserInfoDto> getMainInfo(HttpSession httpSession) {
-        UserModel currentUser = (UserModel)httpSession.getAttribute("currentUser");
+        UserModel currentUser = (UserModel) httpSession.getAttribute("currentUser");
         if (currentUser == null) {
             throw new UserNotFountException("1");
         }
@@ -59,7 +58,7 @@ public class UserController {
 
     @GetMapping("/full")
     public ResponseEntity<FullUserInfoDto> getFullInfo(HttpSession httpSession) {
-        UserModel currentUser = (UserModel)httpSession.getAttribute("currentUser");
+        UserModel currentUser = (UserModel) httpSession.getAttribute("currentUser");
         if (currentUser == null) {
             throw new UserNotFountException("1");
         }
@@ -67,9 +66,15 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}/full")
+    public ResponseEntity<FullUserInfoDto> getFullInfoByUid(@PathVariable("userId") String userId, HttpSession httpSession) {
+        FullUserInfoDto result = fullUserInfoDtoConverter.convert(userService.getUserByUid(userId));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @GetMapping("/current")
     public ResponseEntity<FullUserInfoDto> getCurrentUser(HttpSession httpSession) {
-        UserModel currentUser = (UserModel)httpSession.getAttribute("currentUser");
+        UserModel currentUser = (UserModel) httpSession.getAttribute("currentUser");
         if (currentUser == null) {
             throw new UserNotFountException("1");
         }
