@@ -8,6 +8,7 @@ import lpnu.vlpi.avpz.service.UserService;
 import lpnu.vlpi.avpz.service.exceptions.UserNotFountException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600,allowCredentials = "true")
 @RequestMapping("/vlpi/v1/users/")
 public class UserController {
 
@@ -33,7 +35,7 @@ public class UserController {
     public ResponseEntity<MainUserInfoDto> doAuthorize(@RequestBody UserLoginDto userLoginDto, HttpSession httpSession) {
         UserModel savedUser = userService.doAuthorize(userLoginDto);
         MainUserInfoDto mainUserInfoDto = userMainInfoConverter.convert(savedUser);
-        httpSession.setAttribute("currentUser",savedUser);
+        httpSession.setAttribute("currentUser", savedUser);
         return new ResponseEntity<>(mainUserInfoDto, HttpStatus.OK);
     }
 
@@ -65,5 +67,14 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/current")
+    public ResponseEntity<FullUserInfoDto> getCurrentUser(HttpSession httpSession) {
+        UserModel currentUser = (UserModel)httpSession.getAttribute("currentUser");
+        if (currentUser == null) {
+            throw new UserNotFountException("1");
+        }
+        FullUserInfoDto result = fullUserInfoDtoConverter.convert(currentUser);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }
