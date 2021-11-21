@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 
 @Component
 public class UserFullInfoConverter implements Converter<UserModel, FullUserInfoDto> {
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     public FullUserInfoDto convert(UserModel source) {
 
