@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vlpi/v1/tasks/")
+@RequestMapping("/vlpi/v1/tasks")
 public class TaskController {
     private final Converter<TaskModel, TaskDTO> taskConverter;
     private final Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter;
