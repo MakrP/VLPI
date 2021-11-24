@@ -59,4 +59,9 @@ public class TaskController {
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/pages")
+    public ResponseEntity<Integer> getPageSize(@RequestParam("size") long size) {
+        return new ResponseEntity<>(taskService.getPagesCount(size), HttpStatus.OK);
+    }
+
 }
