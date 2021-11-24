@@ -13,6 +13,7 @@ public class TaskAdminConverter implements Converter<TaskModel,TaskAdminDto> {
         taskAdminDto.setUid(source.getUid());
         taskAdminDto.setDisplayName(source.getDisplayName());
         taskAdminDto.setModuleDisplayName(source.getModule().getDisplayName());
+        taskAdminDto.setTopicDisplayName(source.getTopic().getDisplayName());
         return taskAdminDto;
     }
 }
