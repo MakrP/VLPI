@@ -25,4 +25,6 @@ public interface TaskRepository extends PagingAndSortingRepository<TaskModel, Lo
     @Query(value = "SELECT count(t) / ?1 from TaskModel t")
     int getPagesCount(long size);
 
+    @Query(value = "SELECT MAX(CAST(uid AS LONG)) FROM Tasks", nativeQuery = true)
+    Long getMaxUid();
 }

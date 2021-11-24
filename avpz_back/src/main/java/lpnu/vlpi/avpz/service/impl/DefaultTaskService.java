@@ -57,12 +57,13 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     public String getNewUid() {
-        return null;
+        return String.valueOf(taskRepository.getMaxUid());
     }
 
     @Override
     public int getPagesCount(long size) {
-        return 0;
+        int res = taskRepository.getPagesCount(size);
+        return res == 0 ? 1 : res;
     }
 
 }
