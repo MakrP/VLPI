@@ -87,6 +87,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public int getPagesCount(long size) {
-        return userRepository.getTotalPages(size);
+        int res = userRepository.getTotalPages(size);
+        return res == 0 ? 1 : res;
     }
 }
