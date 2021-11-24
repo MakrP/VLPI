@@ -13,10 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, allowCredentials = "true")
-@RequestMapping("/vlpi/v1/users/")
+@RequestMapping("/vlpi/v1/users")
 public class UserController {
 
     private final Converter<UserModel, MainUserInfoDto> userMainInfoConverter;
@@ -80,6 +82,18 @@ public class UserController {
         }
         FullUserInfoDto result = fullUserInfoDtoConverter.convert(currentUser);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FullUserInfoDto>> getAllUsers(@RequestParam("page") int page, @RequestParam("size") int size) {
+        List<FullUserInfoDto> users = new ArrayList<>();
+        userService.getUsers(page, size).stream().map(fullUserInfoDtoConverter::convert).forEach(users::add);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/pages")
+    public ResponseEntity<Integer> getPageSize(@RequestParam("size") int size) {
+        return new ResponseEntity<>(userService.getPagesCount(size), HttpStatus.OK);
     }
 
 }

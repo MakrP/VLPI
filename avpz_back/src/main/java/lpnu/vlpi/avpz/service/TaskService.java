@@ -5,7 +5,7 @@ import lpnu.vlpi.avpz.model.enums.Level;
 
 import java.util.List;
 
-public interface TaskService {
+public interface TaskService extends BaseService {
     TaskModel createTask(TaskModel taskModel);
     TaskModel getTaskByUid(String uid);
     List<TaskModel> getTopicTasks(String uid);

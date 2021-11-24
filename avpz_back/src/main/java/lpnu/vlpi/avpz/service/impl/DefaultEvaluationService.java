@@ -10,4 +10,14 @@ public class DefaultEvaluationService implements EvaluationService {
     public void evaluate() {
 
     }
+
+    @Override
+    public String getNewUid() {
+        return null;
+    }
+
+    @Override
+    public int getPagesCount(int size) {
+        return 0;
+    }
 }

@@ -8,8 +8,12 @@ import lpnu.vlpi.avpz.model.enums.Role;
 import lpnu.vlpi.avpz.service.UserService;
 import lpnu.vlpi.avpz.service.exceptions.LoginException;
 import lpnu.vlpi.avpz.service.exceptions.UserNotFountException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,7 +72,21 @@ public class DefaultUserService implements UserService {
         return user;
     }
 
-    public long getMaxUid() {
-        return userRepository.getMaxUid();
+    @Override
+    public List<UserModel> getUsers(int pageN, int pageSize) {
+        Pageable pageable = PageRequest.of(pageN, pageSize);
+        Page<UserModel> userModelPage =  userRepository.findAll(pageable);
+        return userModelPage.getContent();
+    }
+
+
+    @Override
+    public String getNewUid() {
+        return String.valueOf(userRepository.getMaxUid());
+    }
+
+    @Override
+    public int getPagesCount(int size) {
+        return userRepository.getTotalPages(size);
     }
 }

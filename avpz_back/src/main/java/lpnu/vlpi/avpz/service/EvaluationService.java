@@ -1,6 +1,6 @@
 package lpnu.vlpi.avpz.service;
 
 
-public interface EvaluationService {
+public interface EvaluationService extends BaseService {
     void evaluate();
 }

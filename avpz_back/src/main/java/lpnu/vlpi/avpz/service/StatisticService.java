@@ -4,7 +4,7 @@ import lpnu.vlpi.avpz.model.ModuleModel;
 import lpnu.vlpi.avpz.model.StatisticModel;
 import lpnu.vlpi.avpz.model.UserModel;
 
-public interface StatisticService {
+public interface StatisticService extends BaseService{
     StatisticModel getGeneralUserStatistic(String userUid);
     StatisticModel getModuleUserStatistic(String userUid, String moduleUid);
     StatisticModel getTaskUserStatistic(String userUid, String taskUid);

@@ -69,4 +69,14 @@ public class DefaultStatisticService implements StatisticService {
     public void removeUserTaskStatistic(String userUid, String taskUid) {
 
     }
+
+    @Override
+    public String getNewUid() {
+        return null;
+    }
+
+    @Override
+    public int getPagesCount(int size) {
+        return 0;
+    }
 }

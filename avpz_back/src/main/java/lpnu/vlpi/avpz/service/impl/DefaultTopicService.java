@@ -35,4 +35,14 @@ public class DefaultTopicService implements TopicService {
         }
         return topicModel.get();
     }
+
+    @Override
+    public String getNewUid() {
+        return null;
+    }
+
+    @Override
+    public int getPagesCount(int size) {
+        return 0;
+    }
 }

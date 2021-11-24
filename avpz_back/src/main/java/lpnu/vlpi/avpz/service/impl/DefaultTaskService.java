@@ -42,4 +42,14 @@ public class DefaultTaskService implements TaskService {
     public List<TaskModel> getTopicTasksByLevel(String uid, Level level) {
         return taskRepository.findAllByTopicUidAndLevel(uid, level);
     }
+
+    @Override
+    public String getNewUid() {
+        return null;
+    }
+
+    @Override
+    public int getPagesCount(int size) {
+        return 0;
+    }
 }
