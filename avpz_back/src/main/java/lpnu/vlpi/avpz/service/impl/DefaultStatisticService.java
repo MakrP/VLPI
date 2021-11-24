@@ -76,7 +76,7 @@ public class DefaultStatisticService implements StatisticService {
     }
 
     @Override
-    public int getPagesCount(int size) {
+    public int getPagesCount(long size) {
         return 0;
     }
 }

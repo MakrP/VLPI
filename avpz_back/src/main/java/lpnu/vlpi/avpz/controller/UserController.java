@@ -92,7 +92,7 @@ public class UserController {
     }
 
     @GetMapping("/pages")
-    public ResponseEntity<Integer> getPageSize(@RequestParam("size") int size) {
+    public ResponseEntity<Integer> getPageSize(@RequestParam("size") long size) {
         return new ResponseEntity<>(userService.getPagesCount(size), HttpStatus.OK);
     }
 

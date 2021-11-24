@@ -17,7 +17,7 @@ public class DefaultEvaluationService implements EvaluationService {
     }
 
     @Override
-    public int getPagesCount(int size) {
+    public int getPagesCount(long size) {
         return 0;
     }
 }

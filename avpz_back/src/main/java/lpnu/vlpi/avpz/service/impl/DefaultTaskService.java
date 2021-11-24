@@ -49,7 +49,7 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public int getPagesCount(int size) {
+    public int getPagesCount(long size) {
         return 0;
     }
 }

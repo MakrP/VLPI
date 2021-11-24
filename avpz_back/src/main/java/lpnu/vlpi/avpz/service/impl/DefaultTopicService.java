@@ -42,7 +42,7 @@ public class DefaultTopicService implements TopicService {
     }
 
     @Override
-    public int getPagesCount(int size) {
+    public int getPagesCount(long size) {
         return 0;
     }
 }

@@ -86,7 +86,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public int getPagesCount(int size) {
+    public int getPagesCount(long size) {
         return userRepository.getTotalPages(size);
     }
 }

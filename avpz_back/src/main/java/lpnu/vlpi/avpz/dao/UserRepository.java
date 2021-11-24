@@ -23,5 +23,5 @@ public interface UserRepository extends PagingAndSortingRepository<UserModel, Lo
     Long getMaxUid();
 
     @Query(value = "SELECT count(u) / ?1 from UserModel u")
-    int getTotalPages(int size);
+    int getTotalPages(long size);
 }
