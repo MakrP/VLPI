@@ -27,4 +27,8 @@ public class TaskModel extends GeneralModel {
 
     @OneToMany(mappedBy = "task")
     private List<CategoryModel> categories;
+
+    @ManyToOne
+    @JoinColumn(name = "module_uid")
+    private ModuleModel module;
 }

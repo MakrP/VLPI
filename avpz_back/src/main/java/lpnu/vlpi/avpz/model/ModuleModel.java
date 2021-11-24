@@ -15,4 +15,7 @@ public class ModuleModel extends GeneralModel {
 
     @OneToMany(mappedBy = "module")
     private List<TopicModel> topics;
+
+    @OneToMany(mappedBy = "module")
+    private List<TaskModel> tasks;
 }

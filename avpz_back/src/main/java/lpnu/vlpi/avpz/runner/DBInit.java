@@ -118,6 +118,7 @@ public class DBInit implements CommandLineRunner {
         task1.setDisplayName("Task 1");
         task1.setLevel(Level.EASY);
         task1.setTopic(topics.get(0));
+        task1.setModule(task1.getTopic().getModule());
         task1.setCreateTime(new Date());
         task1.setModifiedTime(new Date());
         tasks.add(taskRepository.save(task1));
@@ -127,6 +128,7 @@ public class DBInit implements CommandLineRunner {
         task2.setDisplayName("Task 2");
         task2.setLevel(Level.NORMAL);
         task2.setTopic(topics.get(0));
+        task2.setModule(task2.getTopic().getModule());
         task2.setCreateTime(new Date());
         task2.setModifiedTime(new Date());
         tasks.add(taskRepository.save(task2));
@@ -137,6 +139,7 @@ public class DBInit implements CommandLineRunner {
         task3.setDisplayName("Task 3");
         task3.setLevel(Level.HARD);
         task3.setTopic(topics.get(0));
+        task3.setModule(task3.getTopic().getModule());
         task3.setCreateTime(new Date());
         task3.setModifiedTime(new Date());
         tasks.add(taskRepository.save(task3));

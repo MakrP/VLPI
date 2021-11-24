@@ -1,5 +1,6 @@
 package lpnu.vlpi.avpz.controller;
 
+import lpnu.vlpi.avpz.dto.task.TaskAdminDto;
 import lpnu.vlpi.avpz.dto.task.TaskDTO;
 import lpnu.vlpi.avpz.dto.task.TaskPreviewDTO;
 import lpnu.vlpi.avpz.model.TaskModel;
@@ -18,12 +19,14 @@ import java.util.List;
 public class TaskController {
     private final Converter<TaskModel, TaskDTO> taskConverter;
     private final Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter;
+    private final Converter<TaskModel, TaskAdminDto> taskAdminDtoConverter;
     private TaskService taskService;
 
-    public TaskController(TaskService taskService, Converter<TaskModel, TaskDTO> taskConverter, Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter) {
+    public TaskController(TaskService taskService, Converter<TaskModel, TaskDTO> taskConverter, Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter, Converter<TaskModel, TaskAdminDto> taskAdminDtoConverter) {
         this.taskService = taskService;
         this.taskConverter = taskConverter;
         this.taskPreviewDTOConverter = taskPreviewDTOConverter;
+        this.taskAdminDtoConverter = taskAdminDtoConverter;
     }
 
     @GetMapping("/{taskUid}")
@@ -59,9 +62,19 @@ public class TaskController {
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<TaskAdminDto>> getTasksForAdmin(@RequestParam("page") int page, @RequestParam("size") int size) {
+        List<TaskAdminDto> taskAdminDtos = new ArrayList<>();
+        for (TaskModel task : taskService.getTopics(page, size)) {
+            taskAdminDtos.add(taskAdminDtoConverter.convert(task));
+        }
+        return new ResponseEntity<>(taskAdminDtos, HttpStatus.OK);
+    }
+
     @GetMapping("/pages")
     public ResponseEntity<Integer> getPageSize(@RequestParam("size") long size) {
         return new ResponseEntity<>(taskService.getPagesCount(size), HttpStatus.OK);
     }
+
 
 }
