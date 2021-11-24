@@ -3,6 +3,7 @@ package lpnu.vlpi.avpz.controller;
 import lpnu.vlpi.avpz.dto.task.TaskDTO;
 import lpnu.vlpi.avpz.dto.task.TaskPreviewDTO;
 import lpnu.vlpi.avpz.model.TaskModel;
+import lpnu.vlpi.avpz.model.enums.Level;
 import lpnu.vlpi.avpz.service.TaskService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
@@ -31,10 +32,19 @@ public class TaskController {
         return new ResponseEntity<>(taskDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/topic/{topicUid}")
-    public ResponseEntity<List<TaskPreviewDTO>> getTopicTasks(@PathVariable("topicUid") String topicUid, @RequestParam("level") String level) {
+    @GetMapping("/topic/{topicUid}/{level}")
+    public ResponseEntity<List<TaskPreviewDTO>> getTopicTasksByLevel(@PathVariable("topicUid") String topicUid, @PathVariable("level") String level, @RequestParam("page") int page, @RequestParam("size") int size) {
         List<TaskPreviewDTO> taskPreviewDTOS = new ArrayList<>();
-        for (TaskModel topicTask : taskService.getTopicTasks(topicUid)) {
+        for (TaskModel topicTask : taskService.getTopicTasksByLevel(topicUid, Level.valueOf(level), page, size)) {
+            taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
+        }
+        return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/topic/{topicUid}")
+    public ResponseEntity<List<TaskPreviewDTO>> getTopicTasks(@PathVariable("topicUid") String topicUid, @RequestParam("page") int page, @RequestParam("size") int size) {
+        List<TaskPreviewDTO> taskPreviewDTOS = new ArrayList<>();
+        for (TaskModel topicTask : taskService.getTopicTasks(topicUid, page, size)) {
             taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
         }
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);

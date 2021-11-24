@@ -79,6 +79,11 @@ public class DefaultUserService implements UserService {
         return userModelPage.getContent();
     }
 
+    @Override
+    public void removeUser(String uid) {
+        userRepository.deleteUserModelByUid(uid);
+    }
+
 
     @Override
     public String getNewUid() {

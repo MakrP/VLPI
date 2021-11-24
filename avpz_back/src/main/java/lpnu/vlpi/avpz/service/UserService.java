@@ -14,4 +14,5 @@ public interface UserService extends BaseService {
     void assignRoleToUser(String userUid, Role role);
     UserModel getUserByUid(String uid);
     List<UserModel> getUsers(int pageN, int pageSize);
+    void removeUser(String uid);
 }

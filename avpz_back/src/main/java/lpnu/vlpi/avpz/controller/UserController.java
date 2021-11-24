@@ -21,6 +21,7 @@ import java.util.List;
 @RequestMapping("/vlpi/v1/users")
 public class UserController {
 
+    private static final String USER_REMOVED_MESSAGE = "User with uid %s removed";
     private final Converter<UserModel, MainUserInfoDto> userMainInfoConverter;
     private final Converter<UserModel, FullUserInfoDto> fullUserInfoDtoConverter;
     private UserService userService;
@@ -72,6 +73,12 @@ public class UserController {
     public ResponseEntity<FullUserInfoDto> getFullInfoByUid(@PathVariable("userId") String userId, HttpSession httpSession) {
         FullUserInfoDto result = fullUserInfoDtoConverter.convert(userService.getUserByUid(userId));
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> removeUser(@PathVariable("userId") String userId) {
+        userService.removeUser(userId);
+        return new ResponseEntity<>(String.format(USER_REMOVED_MESSAGE,userId), HttpStatus.OK);
     }
 
     @GetMapping("/current")

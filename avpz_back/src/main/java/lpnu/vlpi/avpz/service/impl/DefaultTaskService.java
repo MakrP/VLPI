@@ -2,9 +2,13 @@ package lpnu.vlpi.avpz.service.impl;
 
 import lpnu.vlpi.avpz.dao.TaskRepository;
 import lpnu.vlpi.avpz.model.TaskModel;
+import lpnu.vlpi.avpz.model.UserModel;
 import lpnu.vlpi.avpz.model.enums.Level;
 import lpnu.vlpi.avpz.service.TaskService;
 import lpnu.vlpi.avpz.service.exceptions.TaskNotFountException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,13 +38,15 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public List<TaskModel> getTopicTasks(String uid) {
-        return taskRepository.findAllByTopicUid(uid);
+    public List<TaskModel> getTopicTasks(String uid, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return taskRepository.findAllByTopicUid(uid, pageable).getContent();
     }
 
     @Override
-    public List<TaskModel> getTopicTasksByLevel(String uid, Level level) {
-        return taskRepository.findAllByTopicUidAndLevel(uid, level);
+    public List<TaskModel> getTopicTasksByLevel(String uid, Level level, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return taskRepository.findAllByTopicUidAndLevel(uid, level, pageable).getContent();
     }
 
     @Override
@@ -52,4 +58,5 @@ public class DefaultTaskService implements TaskService {
     public int getPagesCount(long size) {
         return 0;
     }
+
 }
