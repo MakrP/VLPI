@@ -81,7 +81,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void removeUser(String uid) {
-        userRepository.deleteUserModelByUid(uid);
+        userRepository.removeByUid(uid);
     }
 
 
