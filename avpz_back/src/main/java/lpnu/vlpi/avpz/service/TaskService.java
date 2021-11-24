@@ -12,4 +12,5 @@ public interface TaskService extends BaseService {
     TaskModel getTaskByUid(String uid);
     List<TaskModel> getTopicTasks(String uid, int page, int size);
     List<TaskModel> getTopicTasksByLevel(String uid, Level level, int page, int size);
+    List<TaskModel> getTopics(int page, int size);
 }

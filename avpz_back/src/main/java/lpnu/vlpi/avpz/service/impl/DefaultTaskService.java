@@ -50,6 +50,12 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
+    public List<TaskModel> getTopics(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return taskRepository.findAll(pageable).getContent();
+    }
+
+    @Override
     public String getNewUid() {
         return null;
     }

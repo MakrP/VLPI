@@ -50,4 +50,13 @@ public class TaskController {
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<TaskPreviewDTO>> getTasks(@RequestParam("page") int page, @RequestParam("size") int size) {
+        List<TaskPreviewDTO> taskPreviewDTOS = new ArrayList<>();
+        for (TaskModel topicTask : taskService.getTopics(page, size)) {
+            taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
+        }
+        return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
+    }
+
 }

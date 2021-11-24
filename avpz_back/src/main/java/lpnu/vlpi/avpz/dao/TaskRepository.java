@@ -16,6 +16,7 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends PagingAndSortingRepository<TaskModel, Long> {
     Page<TaskModel> findAllByTopicUid(String topicUid, Pageable pageable);
+    Page<TaskModel> findAll(Pageable pageable);
 
     Page<TaskModel> findAllByTopicUidAndLevel(String topicUid, Level level , Pageable pageable);
 
