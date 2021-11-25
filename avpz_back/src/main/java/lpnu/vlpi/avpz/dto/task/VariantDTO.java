@@ -9,4 +9,5 @@ import lombok.Setter;
 public class VariantDTO {
     private String uid;
     private String displayName;
+    private String categoryUid;
 }
