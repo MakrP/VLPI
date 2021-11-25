@@ -15,6 +15,7 @@ public class VariantConverter implements Converter<VariantModel, VariantDTO> {
         variantDTO.setUid(source.getUid());
         variantDTO.setDisplayName(source.getDisplayName());
         variantDTO.setCategoryUid(source.getCategory().getUid());
+        variantDTO.setTooltip(source.getTooltip());
         return variantDTO;
     }
 }
