@@ -119,6 +119,12 @@ public class UserController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public void logout(HttpSession httpSession) {
+        httpSession.invalidate();
+    }
+
     private ErrorsDto createError(String message) {
         ErrorsDto errorsDto = new ErrorsDto();
         errorsDto.setErrorMessage(message);
