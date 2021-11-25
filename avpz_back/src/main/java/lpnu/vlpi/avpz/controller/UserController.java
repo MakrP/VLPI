@@ -1,8 +1,10 @@
 package lpnu.vlpi.avpz.controller;
 
+import lpnu.vlpi.avpz.dto.error.ErrorsDto;
 import lpnu.vlpi.avpz.dto.user.FullUserInfoDto;
 import lpnu.vlpi.avpz.dto.user.MainUserInfoDto;
 import lpnu.vlpi.avpz.dto.user.UserLoginDto;
+import lpnu.vlpi.avpz.dto.user.UserUpdateDTO;
 import lpnu.vlpi.avpz.model.UserModel;
 import lpnu.vlpi.avpz.service.UserService;
 import lpnu.vlpi.avpz.service.exceptions.UserNotFountException;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +81,7 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> removeUser(@PathVariable("userId") String userId) {
         userService.removeUser(userId);
-        return new ResponseEntity<>(String.format(USER_REMOVED_MESSAGE,userId), HttpStatus.OK);
+        return new ResponseEntity<>(String.format(USER_REMOVED_MESSAGE, userId), HttpStatus.OK);
     }
 
     @GetMapping("/current")
@@ -101,6 +104,24 @@ public class UserController {
     @GetMapping("/pages")
     public ResponseEntity<Integer> getPageSize(@RequestParam("size") long size) {
         return new ResponseEntity<>(userService.getPagesCount(size), HttpStatus.OK);
+    }
+
+    @PutMapping("/{userUid}")
+    public ResponseEntity updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
+        UserModel updatedUser = null;
+        try {
+            updatedUser = userService.updateUserInfo(userUpdateDTO);
+        } catch (ParseException e) {
+            return new ResponseEntity<>(createError("Wrong birthday format"), HttpStatus.BAD_REQUEST);
+        }
+        FullUserInfoDto dto = fullUserInfoDtoConverter.convert(updatedUser);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    private ErrorsDto createError(String message) {
+        ErrorsDto errorsDto = new ErrorsDto();
+        errorsDto.setErrorMessage(message);
+        return errorsDto;
     }
 
 }

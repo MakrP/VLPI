@@ -2,18 +2,21 @@ package lpnu.vlpi.avpz.service.impl;
 
 import lpnu.vlpi.avpz.dao.UserRepository;
 import lpnu.vlpi.avpz.dto.user.UserLoginDto;
+import lpnu.vlpi.avpz.dto.user.UserUpdateDTO;
 import lpnu.vlpi.avpz.helper.EncryptionHelper;
 import lpnu.vlpi.avpz.model.UserModel;
 import lpnu.vlpi.avpz.model.enums.Role;
 import lpnu.vlpi.avpz.service.UserService;
 import lpnu.vlpi.avpz.service.exceptions.LoginException;
 import lpnu.vlpi.avpz.service.exceptions.UserNotFountException;
+import lpnu.vlpi.avpz.service.populator.Populator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +26,11 @@ public class DefaultUserService implements UserService {
 
     private UserRepository userRepository;
     private EncryptionHelper encryptionHelper;
-
-    public DefaultUserService(UserRepository userRepository, EncryptionHelper encryptionHelper) {
+    private Populator<UserUpdateDTO, UserModel> updatePopulator;
+    public DefaultUserService(UserRepository userRepository, EncryptionHelper encryptionHelper, Populator<UserUpdateDTO, UserModel> updatePopulator) {
         this.userRepository = userRepository;
         this.encryptionHelper = encryptionHelper;
+        this.updatePopulator = updatePopulator;
     }
 
     @Override
@@ -49,7 +53,13 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public UserModel updateUserInfo(UserModel user) {
+    public UserModel updateUserInfo(UserUpdateDTO userDto) throws ParseException {
+        Optional<UserModel> userModel = userRepository.findByUid(userDto.getUid());
+        if(userModel.isEmpty()) {
+            throw new UserNotFountException(userDto.getUid());
+        }
+        UserModel user = userModel.get();
+        updatePopulator.populate(userDto, user);
         return userRepository.save(user);
     }
 
