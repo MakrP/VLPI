@@ -30,7 +30,7 @@ public class TaskController {
     }
 
     @GetMapping("/{taskUid}")
-    public ResponseEntity<TaskDTO> getTask(@PathVariable("taskUid") String taskUid) {
+    public ResponseEntity<TaskDTO> getTask(@PathVariable("taskUid") String taskUid, @RequestParam("level") String level) {
         TaskDTO taskDTO = taskConverter.convert(taskService.getTaskByUid(taskUid));
         return new ResponseEntity<>(taskDTO, HttpStatus.OK);
     }

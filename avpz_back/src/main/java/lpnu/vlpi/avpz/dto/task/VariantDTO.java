@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VariantDTO {
-    private String taskUid;
+    private String uid;
     private String displayName;
 }

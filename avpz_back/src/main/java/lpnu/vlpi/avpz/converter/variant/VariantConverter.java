@@ -10,7 +10,7 @@ public class VariantConverter implements Converter<VariantModel, VariantDTO> {
     @Override
     public VariantDTO convert(VariantModel source) {
         VariantDTO variantDTO = new VariantDTO();
-        variantDTO.setTaskUid(source.getUid());
+        variantDTO.setUid(source.getUid());
         variantDTO.setDisplayName(source.getDisplayName());
         return variantDTO;
     }

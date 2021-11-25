@@ -10,7 +10,7 @@ public class CategoryConverter implements Converter<CategoryModel, CategoryDTO> 
     @Override
     public CategoryDTO convert(CategoryModel source) {
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setCategoryUid(source.getUid());
+        categoryDTO.setUid(source.getUid());
         categoryDTO.setDisplayName(source.getDisplayName());
         return categoryDTO;
     }
