@@ -21,4 +21,5 @@ public class VariantModel extends GeneralModel {
     @JoinColumn(name = "category_uid")
     private CategoryModel category;
 
+    private String tooltip;
 }

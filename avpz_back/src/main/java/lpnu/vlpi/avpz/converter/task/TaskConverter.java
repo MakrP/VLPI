@@ -6,6 +6,7 @@ import lpnu.vlpi.avpz.dto.task.VariantDTO;
 import lpnu.vlpi.avpz.model.CategoryModel;
 import lpnu.vlpi.avpz.model.TaskModel;
 import lpnu.vlpi.avpz.model.VariantModel;
+import lpnu.vlpi.avpz.model.enums.Level;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

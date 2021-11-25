@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lpnu.vlpi.avpz.model.enums.Level.HARD;
+
 @RestController
 @RequestMapping("/vlpi/v1/tasks")
 public class TaskController {
@@ -32,6 +34,9 @@ public class TaskController {
     @GetMapping("/{taskUid}")
     public ResponseEntity<TaskDTO> getTask(@PathVariable("taskUid") String taskUid, @RequestParam("level") String level) {
         TaskDTO taskDTO = taskConverter.convert(taskService.getTaskByUid(taskUid));
+        if(Level.valueOf(level).equals(HARD)) {
+            taskDTO.getVariantDTOList().forEach(v -> v.setTooltip(null));
+        }
         return new ResponseEntity<>(taskDTO, HttpStatus.OK);
     }
 

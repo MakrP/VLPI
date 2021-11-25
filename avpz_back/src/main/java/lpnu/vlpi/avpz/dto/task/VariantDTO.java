@@ -10,4 +10,5 @@ public class VariantDTO {
     private String uid;
     private String displayName;
     private String categoryUid;
+    private String tooltip;
 }
