@@ -12,5 +12,5 @@ public class UserUpdateDTO {
     private String surname;
     private String email;
     private String password;
-    private String birthdate;
+    private String birthday;
 }
