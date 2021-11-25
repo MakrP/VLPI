@@ -1,1 +1,1 @@
-package lpnu.vlpi.avpz.dto.task.enums;public enum TaskStatus {    COMPLETED,    UNCOMPLETED}
+package lpnu.vlpi.avpz.dto.task.enums;public enum TaskStatus {    NOT_STARTED("Not started"),    UNCOMPLETED("Started"),    FINISHED("Finished");    private String status;    TaskStatus(String status) {        this.status = status;    }    public String getStatus() {        return status;    }}

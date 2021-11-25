@@ -12,10 +12,10 @@ import java.util.Date;
 public class TaskPreviewDTO {
     private String uid;
     private String displayName;
-    private String status;
     private String topicDisplayName;
+    private String moduleDisplayName;
     private Date completionDate;
     private int grade;
-    private Level level;
-    private TaskStatus taskStatus;
+    private String level;
+    private String taskStatus;
 }
