@@ -57,6 +57,7 @@ public class DBInit implements CommandLineRunner {
         variantModel111.setDisplayName("Variant111");
         variantModel111.setCategory(categories.get(0));
         variantModel111.setTask(variantModel111.getCategory().getTask());
+        variantModel111.setTooltip("Tooltip for 111");
         variantModel111.setCreateTime(new Date());
         variantModel111.setModifiedTime(new Date());
         variantModels.add(variantRepository.save(variantModel111));
@@ -66,6 +67,7 @@ public class DBInit implements CommandLineRunner {
         variantModel112.setDisplayName("Variant112");
         variantModel112.setCategory(categories.get(0));
         variantModel112.setTask(variantModel111.getCategory().getTask());
+        variantModel112.setTooltip("Tooltop for 112");
         variantModel112.setCreateTime(new Date());
         variantModel112.setModifiedTime(new Date());
         variantModels.add(variantRepository.save(variantModel112));
@@ -75,6 +77,7 @@ public class DBInit implements CommandLineRunner {
         variantModel121.setDisplayName("Variant121");
         variantModel121.setCategory(categories.get(1));
         variantModel121.setTask(variantModel121.getCategory().getTask());
+        variantModel121.setTooltip("Tooltop for 121");
         variantModel121.setCreateTime(new Date());
         variantModel121.setModifiedTime(new Date());
         variantModels.add(variantRepository.save(variantModel121));
@@ -84,6 +87,7 @@ public class DBInit implements CommandLineRunner {
         variantModel122.setDisplayName("Variant122");
         variantModel122.setCategory(categories.get(1));
         variantModel122.setTask(variantModel122.getCategory().getTask());
+        variantModel122.setTooltip("Tooltop for 122");
         variantModel122.setCreateTime(new Date());
         variantModel122.setModifiedTime(new Date());
         variantModels.add(variantRepository.save(variantModel122));
@@ -93,6 +97,7 @@ public class DBInit implements CommandLineRunner {
         variantModel131.setDisplayName("Variant131");
         variantModel131.setCategory(categories.get(2));
         variantModel131.setTask(variantModel131.getCategory().getTask());
+        variantModel131.setTooltip("Tooltop for 131");
         variantModel131.setCreateTime(new Date());
         variantModel131.setModifiedTime(new Date());
         variantModels.add(variantRepository.save(variantModel131));
@@ -103,6 +108,7 @@ public class DBInit implements CommandLineRunner {
         variantModel132.setDisplayName("Variant132");
         variantModel132.setCategory(categories.get(2));
         variantModel132.setTask(variantModel132.getCategory().getTask());
+        variantModel132.setTooltip("Tooltop for 132");
         variantModel132.setCreateTime(new Date());
         variantModel132.setModifiedTime(new Date());
         variantModels.add(variantRepository.save(variantModel132));
