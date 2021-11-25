@@ -107,8 +107,9 @@ public class UserController {
     }
 
     @PutMapping("/{userUid}")
-    public ResponseEntity updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
+    public ResponseEntity updateUser(@PathVariable("userUid") String userUid, @RequestBody UserUpdateDTO userUpdateDTO) {
         UserModel updatedUser = null;
+        userUpdateDTO.setUid(userUid);
         try {
             updatedUser = userService.updateUserInfo(userUpdateDTO);
         } catch (ParseException e) {
