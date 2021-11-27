@@ -19,8 +19,4 @@ public class ChosenAnswersModel extends GeneralModel {
     @ElementCollection
     private List<VariantModel> variants;
 
-    @ManyToOne
-    @JoinColumn(name = "reslt_uid")
-    private ResultModel result;
-
 }

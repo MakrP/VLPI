@@ -15,6 +15,8 @@ public class TaskModel extends GeneralModel {
 
     private String displayName;
 
+    private int executionTime;
+
     @Enumerated(EnumType.STRING)
     private Level level;
 
@@ -31,4 +33,5 @@ public class TaskModel extends GeneralModel {
     @ManyToOne
     @JoinColumn(name = "module_uid")
     private ModuleModel module;
+
 }

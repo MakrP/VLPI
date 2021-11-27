@@ -51,6 +51,11 @@ public class DefaultStatisticService implements StatisticService {
     }
 
     @Override
+    public StatisticModel updateUserStatistic(String uid, float mark, int executionTime) {
+        return null;
+    }
+
+    @Override
     public void removeUserGeneralStatistic(UserModel userMode) {
 
     }

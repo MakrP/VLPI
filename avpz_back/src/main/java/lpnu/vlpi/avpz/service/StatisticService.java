@@ -9,6 +9,7 @@ public interface StatisticService extends BaseService{
     StatisticModel getModuleUserStatistic(String userUid, String moduleUid);
     StatisticModel getTaskUserStatistic(String userUid, String taskUid);
     StatisticModel updateUserStatistic(String uid, StatisticModel statistic);
+    StatisticModel updateUserStatistic(String uid, float mark, int executionTime);
     void removeUserGeneralStatistic(UserModel userMode);
     void removeUserModuleStatistic(String userUid, String moduleUid);
     void removeUserTopicStatistic(String userUid, String topicUid);
