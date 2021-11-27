@@ -11,10 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DefaultTaskService implements TaskService {
 
     private TaskRepository taskRepository;
@@ -53,6 +55,11 @@ public class DefaultTaskService implements TaskService {
     public List<TaskModel> getTopics(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return taskRepository.findAll(pageable).getContent();
+    }
+
+    @Override
+    public void removeTask(String taskUid) {
+        taskRepository.deleteTaskModelByUid(taskUid);
     }
 
     @Override

@@ -19,6 +19,10 @@ import static lpnu.vlpi.avpz.model.enums.Level.HARD;
 @RestController
 @RequestMapping("/vlpi/v1/tasks")
 public class TaskController {
+
+    private static final String TASK_REMOVED_MESSAGE = "Task with uid %s removed";
+    private static final String TASK_REMOVE_ERROR_MESSAGE = "Error remove task with uid %s";
+
     private final Converter<TaskModel, TaskDTO> taskConverter;
     private final Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter;
     private final Converter<TaskModel, TaskAdminDto> taskAdminDtoConverter;
@@ -34,7 +38,7 @@ public class TaskController {
     @GetMapping("/{taskUid}")
     public ResponseEntity<TaskDTO> getTask(@PathVariable("taskUid") String taskUid, @RequestParam("level") String level) {
         TaskDTO taskDTO = taskConverter.convert(taskService.getTaskByUid(taskUid));
-        if(Level.valueOf(level).equals(HARD)) {
+        if (Level.valueOf(level).equals(HARD)) {
             taskDTO.getVariantDTOList().forEach(v -> v.setTooltip(null));
         }
         return new ResponseEntity<>(taskDTO, HttpStatus.OK);
@@ -79,6 +83,16 @@ public class TaskController {
     @GetMapping("/pages")
     public ResponseEntity<Integer> getPageSize(@RequestParam("size") long size) {
         return new ResponseEntity<>(taskService.getPagesCount(size), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{taskUid}")
+    public ResponseEntity<String> removeTask(@PathVariable("taskUid") String uid) {
+        try {
+            taskService.removeTask(uid);
+            return new ResponseEntity<>(String.format(TASK_REMOVED_MESSAGE, uid), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(String.format(TASK_REMOVE_ERROR_MESSAGE, uid), HttpStatus.NOT_FOUND);
+        }
     }
 
 
