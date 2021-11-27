@@ -28,5 +28,5 @@ public interface TaskRepository extends PagingAndSortingRepository<TaskModel, Lo
     @Query(value = "SELECT MAX(CAST(uid AS LONG)) FROM Tasks", nativeQuery = true)
     Long getMaxUid();
 
-    void deleteTaskModelByUid(String uid);
+    void removeByUid(String uid);
 }

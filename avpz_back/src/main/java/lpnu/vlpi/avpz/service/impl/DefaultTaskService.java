@@ -59,7 +59,7 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     public void removeTask(String taskUid) {
-        taskRepository.deleteTaskModelByUid(taskUid);
+        taskRepository.removeByUid(taskUid);
     }
 
     @Override

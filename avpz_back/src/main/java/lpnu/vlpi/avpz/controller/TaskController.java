@@ -88,13 +88,8 @@ public class TaskController {
 
     @DeleteMapping("/{taskUid}")
     public ResponseEntity<String> removeTask(@PathVariable("taskUid") String uid) {
-        try {
-            taskService.removeTask(uid);
-            return new ResponseEntity<>(String.format(TASK_REMOVED_MESSAGE, uid), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(String.format(TASK_REMOVE_ERROR_MESSAGE, uid), HttpStatus.NOT_FOUND);
-        }
+        taskService.removeTask(uid);
+        return new ResponseEntity<>(String.format(TASK_REMOVED_MESSAGE, uid), HttpStatus.OK);
     }
-
 
 }

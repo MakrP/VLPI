@@ -22,10 +22,10 @@ public class TaskModel extends GeneralModel {
     @JoinColumn(name = "topic_uid")
     private TopicModel topic;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<VariantModel> variants;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<CategoryModel> categories;
 
     @ManyToOne
