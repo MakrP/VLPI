@@ -16,6 +16,7 @@ import java.util.List;
 
 import static lpnu.vlpi.avpz.model.enums.Level.HARD;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 360000, allowCredentials = "true")
 @RestController
 @RequestMapping("/vlpi/v1/tasks")
 public class TaskController {

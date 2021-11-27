@@ -37,6 +37,8 @@ public class DBInit implements CommandLineRunner {
     @Autowired
     private VariantRepository variantRepository;
 
+    @Autowired
+    private StatisticRepository statisticRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -47,6 +49,24 @@ public class DBInit implements CommandLineRunner {
         List<TaskModel> tasks = initTasks(topicModels);
         List<CategoryModel> categories = initCategories(tasks);
         List<VariantModel> variants = initVariants(categories);
+        List<StatisticModel> statistic = initStatistic(users,tasks);
+    }
+
+    private List<StatisticModel> initStatistic(List<UserModel> users, List<TaskModel> tasks) {
+        List<StatisticModel> statisticModels = new ArrayList<>();
+        StatisticModel statisticModel = new StatisticModel();
+        TaskModel taskModel = tasks.get(0);
+        UserModel userModel = users.get(0);
+        statisticModel.setAverageMark(1.2f);
+        statisticModel.setAverageTime(1.2f);
+//        statisticModel.setModule(taskModel.getModule());
+        statisticModel.setAverageTimeOnTask(1.2f);
+//        statisticModel.setTask(taskModel);
+        statisticModel.setTotalTaskComplete(22);
+        statisticModel.setUser(userModel);
+        statisticModel.setUid("4241241");
+        statisticModels.add(statisticRepository.save(statisticModel));
+        return statisticModels;
     }
 
     private List<VariantModel> initVariants(List<CategoryModel> categories) {
