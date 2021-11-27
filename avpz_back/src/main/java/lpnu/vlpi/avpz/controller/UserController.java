@@ -58,6 +58,7 @@ public class UserController {
         if (currentUser == null) {
             throw new UserNotFountException("1");
         }
+        currentUser = userService.getUserByUid(currentUser.getUid());
         MainUserInfoDto dto = userMainInfoConverter.convert(currentUser);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -68,6 +69,7 @@ public class UserController {
         if (currentUser == null) {
             throw new UserNotFountException("1");
         }
+        currentUser = userService.getUserByUid(currentUser.getUid());
         FullUserInfoDto result = fullUserInfoDtoConverter.convert(currentUser);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
