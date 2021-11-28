@@ -15,6 +15,7 @@ public class UserMainInfoConverter implements Converter<UserModel, MainUserInfoD
         MainUserInfoDto mainUserInfoDto = new MainUserInfoDto();
         mainUserInfoDto.setUserName(source.getName() + " " + source.getSurname());
         mainUserInfoDto.setUid(source.getUid());
+        mainUserInfoDto.setRole(source.getRole().toString());
         return mainUserInfoDto;
     }
 }

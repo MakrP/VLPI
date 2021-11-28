@@ -21,6 +21,7 @@ public class UserFullInfoConverter implements Converter<UserModel, FullUserInfoD
         dto.setLogin(source.getLogin());
         dto.setEmail(source.getEmail());
         dto.setBirthday(simpleDateFormat.format(source.getBirthDate()));
+        dto.setRole(source.getRole().toString());
         return dto;
     }
 }

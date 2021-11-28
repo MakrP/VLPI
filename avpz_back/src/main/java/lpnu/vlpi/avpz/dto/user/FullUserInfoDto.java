@@ -14,6 +14,7 @@ public class FullUserInfoDto {
     private String surname;
     private String email;
     private String birthday;
+    private String role;
 }
 
 

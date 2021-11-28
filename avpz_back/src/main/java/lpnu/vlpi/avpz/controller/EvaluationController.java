@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 360000, allowCredentials = "true")
 @RequestMapping("/vlpi/v1/evaluation/{taskUid}")
 public class EvaluationController {
 
