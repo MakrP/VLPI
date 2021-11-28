@@ -1,6 +1,7 @@
 package lpnu.vlpi.avpz.controller;
 
 
+import lpnu.vlpi.avpz.converter.evaluation.EvaluationDTO;
 import lpnu.vlpi.avpz.dto.result.ResultDTO;
 import lpnu.vlpi.avpz.model.UserModel;
 import lpnu.vlpi.avpz.service.EvaluationService;
@@ -23,14 +24,17 @@ public class EvaluationController {
 
     @PostMapping
     public ResponseEntity evaluate(@PathVariable("taskUid") String taskUid, @RequestBody ResultDTO resultDTO, HttpSession httpSession) {
-        resultDTO.setTaskUid(taskUid);
-        UserModel currentUser = (UserModel) httpSession.getAttribute("currentUser");
-        float mark = 0;
-        try {
-            mark = evaluationService.evaluate(currentUser.getUid(), resultDTO);
-        } catch (Exception exception) {
-            new ResponseEntity<>("Стався піздєц", HttpStatus.I_AM_A_TEAPOT);
-        }
-        return new ResponseEntity(mark, HttpStatus.OK);
+        EvaluationDTO evaluationDTO = new EvaluationDTO();
+        evaluationDTO.setScore(57);
+        return new ResponseEntity(evaluationDTO, HttpStatus.OK);
+//        resultDTO.setTaskUid(taskUid);
+//        UserModel currentUser = (UserModel) httpSession.getAttribute("currentUser");
+//        float mark = 0;
+//        try {
+//            mark = evaluationService.evaluate(currentUser.getUid(), resultDTO);
+//        } catch (Exception exception) {
+//            new ResponseEntity<>("Стався піздєц", HttpStatus.I_AM_A_TEAPOT);
+//        }
+//        return new ResponseEntity(mark, HttpStatus.OK);
     }
 }
