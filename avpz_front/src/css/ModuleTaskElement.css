@@ -1,0 +1,45 @@
+td
+{
+    font-size: large;
+    color: black;
+}
+
+.moduleTaskAction
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10%;
+}
+
+.moduleTaskAction > div
+{
+    border-radius: 15%;
+}
+
+.statusWrapper
+{
+    width: 100%;
+    height: 100%;
+}
+
+.statusElem
+{
+    color: white;
+    font-family: bold;
+}
+
+.statusNotStarted
+{
+    background-color: gray;
+}
+
+.statusStarted
+{
+    background-color:orange;
+}
+
+.statusFinished
+{
+    background-color:green;
+}

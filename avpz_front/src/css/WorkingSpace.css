@@ -1,0 +1,121 @@
+.workspace-area-main 
+{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.workspace-menu 
+{
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
+    position: relative;
+    z-index: 1;
+    background: inherit;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3%;
+    padding-top: 1%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.workspace-menu-wrapper
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3%;
+    padding-top: 1%;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.workspace-menu:before 
+{
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    margin: -20px;
+}
+
+.menuProfile
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid white;
+    width: 100%;
+    padding-bottom: 2%;
+}
+
+.menuProfile > i
+{
+    font-size: 12vh;
+    color: white;
+}
+
+.menuProfile > i:hover
+{
+    color: #2196F3;
+}
+
+.menuProfile > span
+{
+    font-size: 4vh;
+    font-style: bold;
+    color: #000;
+}
+
+.menuItems
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 1vh;
+}
+
+.menuItem
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 7%;
+    font-size: x-large;
+    color: black;
+    width: 85%;
+}
+
+.menuItem > i
+{
+    padding-top: 2%;
+}
+
+.menuItem:hover
+{
+    background: white;
+    color: #2196F3;
+}
+
+#taskMngSpan
+{
+    margin-left: 4%;
+}
+
+.suck:hover
+{
+    background-color: #f16969;
+    color: white;
+}

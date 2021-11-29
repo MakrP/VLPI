@@ -1,0 +1,18 @@
+td
+{
+    font-size: large;
+    color: black;
+}
+
+.taskAction
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10%;
+}
+
+.taskAction > div
+{
+    border-radius: 15%;
+}

@@ -1,0 +1,80 @@
+.taskComplete-area-main
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.taskComplete-area-wrapper
+{
+    display: flex;
+    width: 50%;
+    height: 50%;
+    padding: 1%;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
+    z-index: 1;
+    overflow: hidden;
+    position: relative;
+    flex-direction: column;
+}
+
+.taskComplete-area-wrapper:before
+{
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    margin: -20px;
+}
+
+.taskComplete-area-wrapper-name
+{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: wheat;
+    font-size: 6vh;
+}
+
+.taskComplete-area-wrapper-score
+{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: #008000;
+    font-size: 12vh;
+}
+
+.taskComplete-area-wrapper-time
+{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vh;
+    font-family: bold;
+    color: wheat;
+}
+
+.taskComplete-area-wrapper-btn
+{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 5%;
+}

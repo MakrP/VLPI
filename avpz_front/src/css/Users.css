@@ -1,0 +1,29 @@
+.users-area-main
+{
+    padding: 1%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.users-area-main > table
+{
+    text-align: center;
+}
+
+.users-area-pagination-wrapper
+{
+    display: flex;
+    justify-content: center;
+}
+
+th
+{
+    color:white;
+}
+
+ul {
+    margin: 0;
+}

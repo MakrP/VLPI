@@ -1,0 +1,36 @@
+.statistic-area-main
+{
+    width: 100%;
+    height: 100%;
+    padding: 1%;
+}
+
+.statistic-area-main > table
+{
+    text-align: center;
+}
+
+.statistic-area-filter
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3%;
+}
+
+.statistic-area-filter-sort, .statistic-area-filter-sort-order
+{
+    display: flex;
+    flex-direction: row;
+    font-family: bold;
+    font-size: large;
+    gap: 5%;
+    width: 15%;
+}
+
+.statistic-area-filter-sort
+{
+    border-right: white solid 1px;
+}
