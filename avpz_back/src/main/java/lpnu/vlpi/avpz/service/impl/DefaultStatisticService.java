@@ -68,7 +68,7 @@ public class DefaultStatisticService implements StatisticService {
     private void updateTime(StatisticModel statisticModel, ResultModel resultModel) {
         float avarageTime = statisticModel.getAverageTime();
         statisticModel.setAverageTime((avarageTime + resultModel.getCompletionTime()) / statisticModel.getTotalTaskComplete());
-        statisticModel.setTotalTaskComplete(statisticModel.getTotalTaskComplete() + resultModel.getCompletionTime());
+        statisticModel.setTotaltimeOnTasks(statisticModel.getTotaltimeOnTasks() + resultModel.getCompletionTime());
     }
 
     private void updateMark(StatisticModel statisticModel, ResultModel resultModel) {

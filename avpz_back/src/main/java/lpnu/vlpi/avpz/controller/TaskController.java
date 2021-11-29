@@ -81,7 +81,7 @@ public class TaskController {
         UserModel curreentUrer = (UserModel) httpSession.getAttribute("currentUser");
         for (TaskModel topicTask : taskService.getTopics(page, size)) {
             List<ResultModel> result = resultService.getByUserAndTask(topicTask.getUid(), curreentUrer.getUid());
-            if(result.isEmpty()) {
+            if (result.isEmpty()) {
                 taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
             } else {
                 taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result.get(result.size() - 1)));
@@ -112,6 +112,18 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskPreviewDTO> addTask(@RequestBody TaskAddDto taskAddDto) {
+        return addOrUpdate(null, taskAddDto);
+    }
+
+    @PutMapping("/{taskUid}")
+    public ResponseEntity<TaskPreviewDTO> addTask(@PathVariable("taskUid") String taskUid, @RequestBody TaskAddDto taskAddDto) {
+        return addOrUpdate(taskUid, taskAddDto);
+    }
+
+    private ResponseEntity<TaskPreviewDTO> addOrUpdate(String uid, TaskAddDto taskAddDto) {
+        if(uid != null) {
+            taskService.removeTask(uid);
+        }
         TaskModel newTask = taskService.createOrUpdateTask(taskAddDtoTaskModelConverter.convert(taskAddDto));
         TaskPreviewDTO taskPreviewDTO = taskPreviewDTOConverter.convert(newTask);
         return new ResponseEntity<>(taskPreviewDTO, HttpStatus.OK);
