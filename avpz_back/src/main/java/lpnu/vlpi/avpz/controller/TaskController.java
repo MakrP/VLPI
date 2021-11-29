@@ -73,16 +73,20 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TaskPreviewDTO>> getTasks(@RequestParam("page") int page, @RequestParam("size") int size, HttpSession httpSession) {
+    public ResponseEntity getTasks(@RequestParam("page") int page, @RequestParam("size") int size, HttpSession httpSession) {
         List<TaskPreviewDTO> taskPreviewDTOS = new ArrayList<>();
-        UserModel curreentUrer = (UserModel) httpSession.getAttribute("currentUser");
-        for (TaskModel topicTask : taskService.getTopics(page, size)) {
-            ResultModel result = resultService.getByUserAndTask(topicTask.getUid(),curreentUrer.getUid());
-            if(result == null) {
-                taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
-            } else {
-                taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result));
+        try {
+            UserModel curreentUrer = (UserModel) httpSession.getAttribute("currentUser");
+            for (TaskModel topicTask : taskService.getTopics(page, size)) {
+                ResultModel result = resultService.getByUserAndTask(topicTask.getUid(), curreentUrer.getUid());
+                if (result == null) {
+                    taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
+                } else {
+                    taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result));
+                }
             }
+        } catch (Exception e ) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
         }
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
     }
