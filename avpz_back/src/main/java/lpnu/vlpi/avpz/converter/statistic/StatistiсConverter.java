@@ -15,6 +15,7 @@ public class StatistiсConverter implements Converter<StatisticModel, StatisticD
         statisticDto.setAverageMark(source.getAverageMark());
         statisticDto.setAverageTimeOnTasks(source.getAverageTime());
         statisticDto.setTotalTaskComplete(source.getTotalTaskComplete());
+        statisticDto.setUser(source.getUser());
         return statisticDto;
     }
 }
