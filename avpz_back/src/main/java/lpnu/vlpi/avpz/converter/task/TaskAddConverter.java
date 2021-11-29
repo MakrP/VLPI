@@ -10,6 +10,7 @@ import lpnu.vlpi.avpz.model.TopicModel;
 import lpnu.vlpi.avpz.model.VariantModel;
 import lpnu.vlpi.avpz.model.enums.Level;
 import lpnu.vlpi.avpz.service.CategoryService;
+import lpnu.vlpi.avpz.service.TaskService;
 import lpnu.vlpi.avpz.service.TopicService;
 import lpnu.vlpi.avpz.service.exceptions.VariantService;
 import org.springframework.core.convert.converter.Converter;
@@ -28,18 +29,22 @@ public class TaskAddConverter implements Converter<TaskAddDto, TaskModel> {
     private TopicRepository topicRepository;
     private TopicService topicService;
     private ModuleRepository moduleRepository;
+    private TaskService taskService;
 
-    public TaskAddConverter(CategoryService categoryService, VariantService variantService, TopicRepository topicRepository, TopicService topicService, ModuleRepository moduleRepository) {
+    public TaskAddConverter(CategoryService categoryService, VariantService variantService, TopicRepository topicRepository, TopicService topicService, ModuleRepository moduleRepository, TaskService taskService) {
         this.categoryService = categoryService;
         this.variantService = variantService;
         this.topicRepository = topicRepository;
         this.topicService = topicService;
         this.moduleRepository = moduleRepository;
+        this.taskService = taskService;
     }
 
     @Override
     public TaskModel convert(TaskAddDto source) {
         TaskModel res = new TaskModel();
+        res.setUid(taskService.getNewUid());
+        res = taskService.createOrUpdateTask(res);
         Map<String, List<VariantAddDTO>> categoryVariant = source.getVariants().stream().collect(groupingBy(dto -> dto.getCategoryAnswer()));
         populateVariants(res,categoryVariant);
         populateModule(res,source);
@@ -47,6 +52,7 @@ public class TaskAddConverter implements Converter<TaskAddDto, TaskModel> {
         res.setDisplayName(source.getName());
         res.setExecutionTime(source.getTime());
         res.setLevel(Level.valueOf(source.getLevel()));
+        taskService.createOrUpdateTask(res);
         return res;
     }
 
@@ -69,6 +75,7 @@ public class TaskAddConverter implements Converter<TaskAddDto, TaskModel> {
             CategoryModel categoryModel = new CategoryModel();
             categoryModel.setUid(categoryService.getNewUid());
             categoryModel.setDisplayName(categoryName);
+            categoryModel.setTask(taskModel);
             categoryModel = categoryService.createCategory(categoryModel);
             categories.add(categoryModel);
             for (VariantAddDTO variantAddDTO : categoryVariants.get(categoryName)) {
@@ -77,6 +84,7 @@ public class TaskAddConverter implements Converter<TaskAddDto, TaskModel> {
                 variantModel.setDisplayName(variantAddDTO.getDisplayName());
                 variantModel.setTooltip(variantAddDTO.getTooltip());
                 variantModel.setCategory(categoryModel);
+                variantModel.setTask(taskModel);
                 variants.add(variantService.create(variantModel));
             }
         }

@@ -12,5 +12,5 @@ public class ResultDTO {
     private String userUid;
     private List<AnswerDto> answers;
     private String level;
-    private int executionTime;
+    private int time;
 }

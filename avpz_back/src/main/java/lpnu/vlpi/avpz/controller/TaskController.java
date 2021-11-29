@@ -112,7 +112,7 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskPreviewDTO> addTask(@RequestBody TaskAddDto taskAddDto) {
-        TaskModel newTask = taskService.createTask(taskAddDtoTaskModelConverter.convert(taskAddDto));
+        TaskModel newTask = taskService.createOrUpdateTask(taskAddDtoTaskModelConverter.convert(taskAddDto));
         TaskPreviewDTO taskPreviewDTO = taskPreviewDTOConverter.convert(newTask);
         return new ResponseEntity<>(taskPreviewDTO, HttpStatus.OK);
     }

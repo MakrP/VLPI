@@ -85,7 +85,7 @@ public class DefaultEvaluationService implements EvaluationService {
         ResultModel resultModel = new ResultModel();
         resultModel.setUid(resultService.getNewUid());
         resultModel.setGrade(mark);
-        resultModel.setCompletionTime(resultDTO.getExecutionTime());
+        resultModel.setCompletionTime(resultDTO.getTime());
         resultModel.setUser(userService.getUserByUid(resultDTO.getUserUid()));
         resultModel.setTask(taskService.getTaskByUid(resultDTO.getTaskUid()));
         resultModel.setCompleted(true);
