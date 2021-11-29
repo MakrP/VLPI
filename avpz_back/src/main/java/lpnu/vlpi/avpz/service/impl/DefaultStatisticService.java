@@ -10,6 +10,7 @@ import lpnu.vlpi.avpz.service.UserService;
 import lpnu.vlpi.avpz.service.exceptions.StatisticNotFountException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +45,11 @@ public class DefaultStatisticService implements StatisticService {
         updateTime(statisticModel, resultModel);
         updateMark(statisticModel, resultModel);
         return statisticModel;
+    }
+
+    @Override
+    public List<StatisticModel> getAll() {
+        return statisticRepository.findAll();
     }
 
     private StatisticModel createUserStatistic(UserModel userModel) {

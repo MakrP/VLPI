@@ -11,8 +11,7 @@ import java.util.Optional;
 public interface ResultRepository extends CrudRepository<ResultModel, Long> {
 
     Optional<ResultModel> getByUid(String uid);
-    Optional<ResultModel> getByTaskUid(String uid);
-    Optional<ResultModel> getByUserUid(String uid);
+    Optional<ResultModel> getByTaskUidAndUserUid(String tuid, String uuid);
 
     @Query(value = "SELECT MAX(CAST(uid AS LONG)) FROM Results", nativeQuery = true)
     Long getMaxUid();
