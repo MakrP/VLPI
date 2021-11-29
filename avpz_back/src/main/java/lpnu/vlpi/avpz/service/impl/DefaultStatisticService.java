@@ -40,7 +40,7 @@ public class DefaultStatisticService implements StatisticService {
     @Override
     public StatisticModel updateUserStatistic(ResultModel resultModel) {
         UserModel user = userService.getUserByUid(resultModel.getUser().getUid());
-        StatisticModel statisticModel = getUserStatistic(user.getUid());
+        StatisticModel statisticModel = statisticRepository.findByUserUid(user.getUid()).orElse(null);
         if (statisticModel == null) {
             statisticModel = createUserStatistic(user);
         }
