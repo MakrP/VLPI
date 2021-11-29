@@ -33,6 +33,9 @@ public class DefaultResultService implements ResultService {
     @Override
     public ResultModel getByUserAndTask(String tuid, String uuid) {
         Optional<ResultModel> resultModel = resultRepository.getByTaskUidAndUserUid(tuid, uuid);
+        if(resultModel.isEmpty()) {
+            throw new ModelNotFountException("Result not found for task " + tuid + "and user " + uuid);
+        }
         return resultModel.orElse(null);
     }
 

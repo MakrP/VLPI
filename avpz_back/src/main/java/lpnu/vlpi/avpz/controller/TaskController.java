@@ -9,6 +9,7 @@ import lpnu.vlpi.avpz.model.UserModel;
 import lpnu.vlpi.avpz.model.enums.Level;
 import lpnu.vlpi.avpz.service.ResultService;
 import lpnu.vlpi.avpz.service.TaskService;
+import lpnu.vlpi.avpz.service.exceptions.ModelNotFountException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,18 +76,15 @@ public class TaskController {
     @GetMapping
     public ResponseEntity getTasks(@RequestParam("page") int page, @RequestParam("size") int size, HttpSession httpSession) {
         List<TaskPreviewDTO> taskPreviewDTOS = new ArrayList<>();
-        try {
-            UserModel curreentUrer = (UserModel) httpSession.getAttribute("currentUser");
-            for (TaskModel topicTask : taskService.getTopics(page, size)) {
+        UserModel curreentUrer = (UserModel) httpSession.getAttribute("currentUser");
+        for (TaskModel topicTask : taskService.getTopics(page, size)) {
+            try {
                 ResultModel result = resultService.getByUserAndTask(topicTask.getUid(), curreentUrer.getUid());
-                if (result == null) {
-                    taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
-                } else {
-                    taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result));
-                }
+                taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result));
+            } catch (ModelNotFountException e) {
+                taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
+                System.out.println(e.getMessage());
             }
-        } catch (Exception e ) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
         }
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
     }
