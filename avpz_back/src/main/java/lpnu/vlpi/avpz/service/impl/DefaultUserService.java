@@ -49,6 +49,7 @@ public class DefaultUserService implements UserService {
     public UserModel register(UserModel user) {
         user.setUid(String.valueOf(userRepository.getMaxUid() + 1));
         user.setPassword(encryptionHelper.encrypt(user.getPassword()));
+        user.setRole(Role.USER);
         return userRepository.save(user);
     }
 
