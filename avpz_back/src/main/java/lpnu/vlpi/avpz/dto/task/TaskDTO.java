@@ -13,4 +13,5 @@ public class TaskDTO {
     private String level;
     private int time;
     private String name;
+    private String topic;
 }
