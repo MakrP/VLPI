@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
 public class ResultConverter implements Converter<ResultModel, TaskPreviewDTO> {
+
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
 
     @Autowired
     private Converter<TaskModel, TaskPreviewDTO> taskConverter;
@@ -19,7 +22,7 @@ public class ResultConverter implements Converter<ResultModel, TaskPreviewDTO> {
     @Override
     public TaskPreviewDTO convert(ResultModel source) {
         TaskPreviewDTO dto = taskConverter.convert(source.getTask());
-        dto.setCompletionDate(new Date());
+        dto.setCompletionDate(simpleDateFormat.format(source.getCompletitionDate()));
         dto.setGrade(source.getGrade());
         return dto;
     }

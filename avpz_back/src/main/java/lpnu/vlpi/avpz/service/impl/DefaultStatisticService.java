@@ -44,6 +44,7 @@ public class DefaultStatisticService implements StatisticService {
         statisticModel.setTotalTaskComplete(statisticModel.getTotalTaskComplete() + 1);
         updateTime(statisticModel, resultModel);
         updateMark(statisticModel, resultModel);
+        statisticRepository.save(statisticModel);
         return statisticModel;
     }
 

@@ -36,7 +36,7 @@ public class DefaultResultService implements ResultService {
         if(resultModel.isEmpty()) {
             throw new ModelNotFountException("Result not found for task " + tuid + "and user " + uuid);
         }
-        return resultModel.orElse(null);
+        return resultModel.get();
     }
 
 

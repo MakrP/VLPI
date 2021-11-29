@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -23,7 +24,7 @@ public class ResultModel extends GeneralModel {
     private boolean isCompleted;
     private int grade;
     private int completionTime;
-
+    private Date completitionDate;
     @OneToMany(mappedBy = "result")
     private List<ChosenAnswersModel> chosenAnswers;
 }

@@ -10,6 +10,7 @@ import lpnu.vlpi.avpz.service.exceptions.VariantService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -89,6 +90,7 @@ public class DefaultEvaluationService implements EvaluationService {
         resultModel.setTask(taskService.getTaskByUid(resultDTO.getTaskUid()));
         resultModel.setCompleted(true);
         resultModel.setChosenAnswers(chosenAnswers);
+        resultModel.setCompletitionDate(new Date());
         return resultService.createResult(resultModel);
     }
 }

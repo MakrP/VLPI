@@ -14,7 +14,7 @@ public class TaskPreviewDTO {
     private String displayName;
     private String topicDisplayName;
     private String moduleDisplayName;
-    private Date completionDate;
+    private String completionDate;
     private int grade;
     private String level;
     private String taskStatus;
