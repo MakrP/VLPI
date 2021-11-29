@@ -72,7 +72,7 @@ public class DefaultStatisticService implements StatisticService {
     @Override
     public String getNewUid() {
         long id = Optional.ofNullable(statisticRepository.getMaxUid()).orElse(0L);
-        return String.valueOf(id);    }
+        return String.valueOf(id + 1);    }
 
     @Override
     public int getPagesCount(long size) {

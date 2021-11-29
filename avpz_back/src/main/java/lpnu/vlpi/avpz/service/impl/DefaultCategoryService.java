@@ -23,7 +23,7 @@ public class DefaultCategoryService implements CategoryService {
     @Override
     public String getNewUid() {
         long id = Optional.ofNullable(categoryRepository.getMaxUid()).orElse(0L);
-        return String.valueOf(id);
+        return String.valueOf(id + 1);
     }
 
     @Override

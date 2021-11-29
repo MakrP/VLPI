@@ -42,7 +42,7 @@ public class DefaultResultService implements ResultService {
     @Override
     public String getNewUid() {
         long id = Optional.ofNullable(resultRepository.getMaxUid()).orElse(0L);
-        return String.valueOf(id);
+        return String.valueOf(id + 1);
     }
 
     @Override
