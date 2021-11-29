@@ -81,7 +81,7 @@ public class TaskController {
             if(result.isEmpty()) {
                 taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
             } else {
-                taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result.get(0)));
+                taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result.get(result.size() - 1)));
             }
         }
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);
