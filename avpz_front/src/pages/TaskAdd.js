@@ -108,11 +108,13 @@ class TaskAdd extends React.Component
             variants: [],
             categories: [],
             name: "",
-            module: "",
-            topic:"",
+            module: "Requirement Analysis",
+            topic:"DefaultTopic",
             check: false,
             error: "",
-            uid: 0
+            uid: 0,
+            time: 0,
+            level: "EASY"
         }
     }
 
@@ -172,13 +174,16 @@ class TaskAdd extends React.Component
         let curr_variants = [...this.state.variants]
         curr_variants.map((value) => {
             let curr_answer = value.curr_answer
-            value.curr_answer = {displayName: curr_answer}
+            let categ = this.state.categories.find((x) => {return x.uid === curr_answer})
+            value.categoryAnswer = categ.displayName
             
             delete value.uid
+            delete value.real_answer
+            delete value.curr_answer
             return value
         })
 
-        const data = JSON.stringify({variants: curr_variants, topic: this.state.topic, module: this.state.module, name: this.state.name, time: 120});
+        const data = JSON.stringify({variants: curr_variants, topic: this.state.topic, module: this.state.module, name: this.state.name, time: this.state.time, level: this.state.level});
         const response_tasks = await fetch('http://localhost:8080/vlpi/v1/tasks', {method: 'POST', body: data, headers: { 'Content-Type': 'application/json', }});
         
         this.props.history.goBack()
@@ -201,12 +206,18 @@ class TaskAdd extends React.Component
                             </div>
                             <div className="taskAdd-task-other">
                                 <input onChange={(event) => {this.setState({name:event.target.value})}} placeholder="Name" className='form-control'/>
+                                <input onChange={(event) => {this.setState({time:event.target.value})}} placeholder="Time" className='form-control' />
                                 <select onChange={(event) => {this.setState({module:event.target.value})}}>
                                     <option>Requirement Analysis</option>
                                     <option>Modelling</option>
                                     <option>Coding</option>
                                     <option>Testing</option>
                                     <option>Accompaniment</option>
+                                </select>
+                                <select onChange={(event) => {this.setState({level:event.target.value})}}>
+                                    <option>EASY</option>
+                                    <option>NORMAL</option>
+                                    <option>HARD</option>
                                 </select>
                             </div>
                             <div className="taskAdd-area-questions-actions">

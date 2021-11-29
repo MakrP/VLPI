@@ -79,7 +79,7 @@ class TaskRun extends React.Component
             categories: [],
             check: false,
             level: realLevelSeach.get("level"),
-            time: "1h 20m",
+            time: 320,
             error: ""
         }
         this.onCheckClick = this.onCheckClick.bind(this)
