@@ -1,0 +1,19 @@
+.modules-tasks-area-main
+{
+    padding: 1%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modules-tasks-area-main > table
+{
+    text-align: center;
+}
+
+th
+{
+    color:white;
+}

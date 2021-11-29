@@ -1,0 +1,17 @@
+.bottom-area-main
+{
+    width: inherit;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background: gray;
+    display: flex;
+    color: white;
+    font-family: "NES Logo";
+    font-size: xx-large;
+}
+
+.bottom-area-main > p
+{
+    margin: 0;
+}
