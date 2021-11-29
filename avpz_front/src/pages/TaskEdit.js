@@ -108,11 +108,13 @@ class TaskAdd extends React.Component
             variants: [],
             categories: [],
             name: "",
-            module: "",
-            topic:"",
+            module: "Requirement Analysis",
+            topic:"DefaultTopic",
             check: false,
             error: "",
-            uid: 0
+            uid: 0,
+            time: 0,
+            level: "EASY"
         }
     }
 
@@ -126,7 +128,7 @@ class TaskAdd extends React.Component
             element.curr_answer = element.categoryUid;
         });
 
-        this.setState({categories:data_tasks.categoryDtos, variants: curr_variants})
+        this.setState({categories:data_tasks.categoryDtos, variants: curr_variants, topic: data_tasks.topic, name: data_tasks.name, level: data_tasks.level, time: data_tasks.time})
     }
 
     onCategoryAddClick = () => {
@@ -182,7 +184,22 @@ class TaskAdd extends React.Component
     };
 
     onDoneClick = async () => {
-        //TODO
+        let curr_variants = [...this.state.variants]
+        curr_variants.map((value) => {
+            let curr_answer = value.curr_answer
+            let categ = this.state.categories.find((x) => {return x.uid === curr_answer})
+            value.categoryAnswer = categ.displayName
+            
+            delete value.uid
+            delete value.real_answer
+            delete value.curr_answer
+            return value
+        })
+
+        const data = JSON.stringify({variants: curr_variants, topic: this.state.topic, module: this.state.module, name: this.state.name, time: this.state.time, level:this.state.level});
+        const response_tasks = await fetch('http://localhost:8080/vlpi/v1/tasks/' + this.props.match.params.taskId, {method: 'PUT', body: data, headers: { 'Content-Type': 'application/json', }});
+        
+        this.props.history.goBack()
     }
 
     render() {
@@ -201,13 +218,19 @@ class TaskAdd extends React.Component
                                 <button className="btn btn-primary" onClick={this.onVariantAddClick}>Add</button>
                             </div>
                             <div className="taskEdit-task-other">
-                                <input onChange={(event) => {this.setState({name:event.target.value})}} placeholder="Name" className='form-control'/>
+                                <input value={this.state.name} onChange={(event) => {this.setState({name:event.target.value})}} placeholder="Name" className='form-control'/>
+                                <input value={this.state.time} onChange={(event) => {this.setState({time:event.target.value})}} placeholder="Time" className='form-control' />
                                 <select onChange={(event) => {this.setState({module:event.target.value})}}>
                                     <option>Requirement Analysis</option>
                                     <option>Modelling</option>
                                     <option>Coding</option>
                                     <option>Testing</option>
                                     <option>Accompaniment</option>
+                                </select>
+                                <select value={this.state.level} onChange={(event) => {this.setState({level:event.target.value})}}>
+                                    <option>EASY</option>
+                                    <option>NORMAL</option>
+                                    <option>HARD</option>
                                 </select>
                             </div>
                             <div className="taskEdit-area-questions-actions">

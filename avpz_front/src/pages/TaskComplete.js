@@ -24,7 +24,7 @@ class TaskComplete extends React.Component
                         {this.props.location.state.score}/100
                     </div>
                     <div className="taskComplete-area-wrapper-time">
-                        Time passed: {this.props.location.state.time}  
+                        Time passed: {this.props.location.state.time}s
                     </div>
                     <div  className="taskComplete-area-wrapper-btn">
                         <button onClick={this.onDoneClick} className="btn btn-primary">Done</button>
