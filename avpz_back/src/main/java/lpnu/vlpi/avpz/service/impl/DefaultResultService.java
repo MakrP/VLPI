@@ -6,6 +6,7 @@ import lpnu.vlpi.avpz.service.ResultService;
 import lpnu.vlpi.avpz.service.exceptions.ModelNotFountException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,12 +32,12 @@ public class DefaultResultService implements ResultService {
     }
 
     @Override
-    public ResultModel getByUserAndTask(String tuid, String uuid) {
-        Optional<ResultModel> resultModel = resultRepository.getByTaskUidAndUserUid(tuid, uuid);
+    public List<ResultModel> getByUserAndTask(String tuid, String uuid) {
+        List<ResultModel> resultModel = resultRepository.getByTaskUidAndUserUidOrderByUid(tuid, uuid);
         if(resultModel.isEmpty()) {
             throw new ModelNotFountException("Result not found for task " + tuid + "and user " + uuid);
         }
-        return resultModel.get();
+        return resultModel;
     }
 
 

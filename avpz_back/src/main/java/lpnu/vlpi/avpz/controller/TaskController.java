@@ -9,7 +9,6 @@ import lpnu.vlpi.avpz.model.UserModel;
 import lpnu.vlpi.avpz.model.enums.Level;
 import lpnu.vlpi.avpz.service.ResultService;
 import lpnu.vlpi.avpz.service.TaskService;
-import lpnu.vlpi.avpz.service.exceptions.ModelNotFountException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,12 +77,11 @@ public class TaskController {
         List<TaskPreviewDTO> taskPreviewDTOS = new ArrayList<>();
         UserModel curreentUrer = (UserModel) httpSession.getAttribute("currentUser");
         for (TaskModel topicTask : taskService.getTopics(page, size)) {
-            try {
-                ResultModel result = resultService.getByUserAndTask(topicTask.getUid(), curreentUrer.getUid());
-                taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result));
-            } catch (ModelNotFountException e) {
+            List<ResultModel> result = resultService.getByUserAndTask(topicTask.getUid(), curreentUrer.getUid());
+            if(result.isEmpty()) {
                 taskPreviewDTOS.add(taskPreviewDTOConverter.convert(topicTask));
-                System.out.println(e.getMessage());
+            } else {
+                taskPreviewDTOS.add(taskPreviewDTOFromResulConverter.convert(result.get(0)));
             }
         }
         return new ResponseEntity<>(taskPreviewDTOS, HttpStatus.OK);

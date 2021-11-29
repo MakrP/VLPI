@@ -49,7 +49,6 @@ public class DBInit implements CommandLineRunner {
         List<TaskModel> tasks = initTasks(topicModels);
         List<CategoryModel> categories = initCategories(tasks);
         List<VariantModel> variants = initVariants(categories);
-        List<StatisticModel> statistic = initStatistic(users,tasks);
     }
 
     private List<StatisticModel> initStatistic(List<UserModel> users, List<TaskModel> tasks) {

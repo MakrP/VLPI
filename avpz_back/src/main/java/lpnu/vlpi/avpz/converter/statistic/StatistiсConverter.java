@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StatistiсConverter implements Converter<StatisticModel, StatisticDto> {
+
     @Override
     public StatisticDto convert(StatisticModel source) {
         StatisticDto statisticDto = new StatisticDto();
