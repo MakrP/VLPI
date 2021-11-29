@@ -38,6 +38,8 @@ public class TaskConverter implements Converter<TaskModel, TaskDTO> {
             variantDTOS.add(variantDTOConverter.convert(variant));
         }
         taskDTO.setVariantDTOList(variantDTOS);
+        taskDTO.setLevel(source.getLevel().toString());
+        taskDTO.setTime(source.getExecutionTime());
         return taskDTO;
     }
 }
