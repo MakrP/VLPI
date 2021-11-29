@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class AnswerDto {
     private String uid;
-    private String categoryUid;
+    private String curr_answer;
 }

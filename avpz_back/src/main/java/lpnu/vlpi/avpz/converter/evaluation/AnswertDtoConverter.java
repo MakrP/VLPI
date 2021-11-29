@@ -29,7 +29,7 @@ public class AnswertDtoConverter implements Converter<List<AnswerDto>, List<Chos
     @Override
     public List<ChosenAnswersModel> convert(List<AnswerDto> source) {
         List<ChosenAnswersModel> res = new ArrayList<>();
-        Map<String, List<AnswerDto>> grupedByCategory = source.stream().collect(groupingBy(AnswerDto::getCategoryUid));
+        Map<String, List<AnswerDto>> grupedByCategory = source.stream().collect(groupingBy(AnswerDto::getCurr_answer));
         for (String categoryUid : grupedByCategory.keySet()) {
             ChosenAnswersModel chosenAnswersModel = new ChosenAnswersModel();
             CategoryModel categoryModel = categoryService.getByUid(categoryUid);
