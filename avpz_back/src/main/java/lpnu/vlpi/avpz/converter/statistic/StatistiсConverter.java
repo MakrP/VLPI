@@ -18,6 +18,7 @@ public class StatistiсConverter implements Converter<StatisticModel, StatisticD
         statisticDto.setTotalTaskComplete(source.getTotalTaskComplete());
         statisticDto.setUsername(source.getUser().getEmail());
         statisticDto.setUuid(source.getUser().getUid());
+        statisticDto.setTotalTimeOnTasks(source.getTotaltimeOnTasks());
         return statisticDto;
     }
 }

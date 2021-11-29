@@ -17,4 +17,5 @@ public class StatisticModel extends GeneralModel {
     private float averageTime;
     private float averageMark;
     private int totalTaskComplete;
+    private float totaltimeOnTasks;
 }

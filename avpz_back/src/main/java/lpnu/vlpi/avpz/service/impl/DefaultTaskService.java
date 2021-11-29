@@ -27,6 +27,7 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     public TaskModel createTask(TaskModel taskModel) {
+        taskModel.setUid(getNewUid());
         return taskRepository.save(taskModel);
     }
 

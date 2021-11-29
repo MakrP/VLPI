@@ -26,6 +26,11 @@ public class DefaultVariantService implements VariantService {
     }
 
     @Override
+    public VariantModel create(VariantModel variantModel) {
+        return variantRepository.save(variantModel);
+    }
+
+    @Override
     public String getNewUid() {
         long id = Optional.ofNullable(variantRepository.getMaxUid()).orElse(0L);
         return String.valueOf(id + 1);    }

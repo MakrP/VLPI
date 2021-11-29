@@ -22,6 +22,7 @@ public class UserUpdatePopulator implements Populator<UserUpdateDTO, UserModel> 
         userModel.setName(userUpdateDTO.getName());
         userModel.setSurname(userUpdateDTO.getSurname());
         userModel.setEmail(userUpdateDTO.getEmail());
+        userModel.setLogin(userUpdateDTO.getEmail());
         userModel.setBirthDate(bdFormat.parse(userUpdateDTO.getBirthday()));
         String password = userUpdateDTO.getPassword();
         if(password != null) {

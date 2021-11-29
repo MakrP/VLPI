@@ -40,4 +40,9 @@ public class DefaultCategoryService implements CategoryService {
         }
         return categoryModel.get();
     }
+
+    @Override
+    public CategoryModel createCategory(CategoryModel categoryModel) {
+        return categoryRepository.save(categoryModel);
+    }
 }

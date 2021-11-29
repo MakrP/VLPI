@@ -230,7 +230,7 @@ public class DBInit implements CommandLineRunner {
         moduleModel.setUid("4341231");
         moduleModel.setCreateTime(new Date());
         moduleModel.setModifiedTime(new Date());
-        moduleModel.setDisplayName("Requairments Analysis");
+        moduleModel.setDisplayName("Requirement Analysis");
         moduleModels.add(moduleRepository.save(moduleModel));
 
         ModuleModel moduleModel2 = new ModuleModel();

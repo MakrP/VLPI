@@ -1,5 +1,6 @@
 package lpnu.vlpi.avpz.controller;
 
+import lpnu.vlpi.avpz.dto.task.TaskAddDto;
 import lpnu.vlpi.avpz.dto.task.TaskAdminDto;
 import lpnu.vlpi.avpz.dto.task.TaskDTO;
 import lpnu.vlpi.avpz.dto.task.TaskPreviewDTO;
@@ -32,16 +33,18 @@ public class TaskController {
     private final Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter;
     private final Converter<TaskModel, TaskAdminDto> taskAdminDtoConverter;
     private final Converter<ResultModel, TaskPreviewDTO> taskPreviewDTOFromResulConverter;
+    private final Converter<TaskAddDto, TaskModel> taskAddDtoTaskModelConverter;
 
     private TaskService taskService;
     private ResultService resultService;
 
-    public TaskController(TaskService taskService, Converter<TaskModel, TaskDTO> taskConverter, Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter, Converter<TaskModel, TaskAdminDto> taskAdminDtoConverter, Converter<ResultModel, TaskPreviewDTO> taskPreviewDTOFromResulConverter, ResultService resultService) {
+    public TaskController(TaskService taskService, Converter<TaskModel, TaskDTO> taskConverter, Converter<TaskModel, TaskPreviewDTO> taskPreviewDTOConverter, Converter<TaskModel, TaskAdminDto> taskAdminDtoConverter, Converter<ResultModel, TaskPreviewDTO> taskPreviewDTOFromResulConverter, Converter<TaskAddDto, TaskModel> taskAddDtoTaskModelConverter, ResultService resultService) {
         this.taskService = taskService;
         this.taskConverter = taskConverter;
         this.taskPreviewDTOConverter = taskPreviewDTOConverter;
         this.taskAdminDtoConverter = taskAdminDtoConverter;
         this.taskPreviewDTOFromResulConverter = taskPreviewDTOFromResulConverter;
+        this.taskAddDtoTaskModelConverter = taskAddDtoTaskModelConverter;
         this.resultService = resultService;
     }
 
@@ -105,6 +108,13 @@ public class TaskController {
     public ResponseEntity<String> removeTask(@PathVariable("taskUid") String uid) {
         taskService.removeTask(uid);
         return new ResponseEntity<>(String.format(TASK_REMOVED_MESSAGE, uid), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<TaskPreviewDTO> addTask(@RequestBody TaskAddDto taskAddDto) {
+        TaskModel newTask = taskService.createTask(taskAddDtoTaskModelConverter.convert(taskAddDto));
+        TaskPreviewDTO taskPreviewDTO = taskPreviewDTOConverter.convert(newTask);
+        return new ResponseEntity<>(taskPreviewDTO, HttpStatus.OK);
     }
 
 }

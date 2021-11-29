@@ -30,7 +30,7 @@ public class DefaultTopicService implements TopicService {
     @Override
     public TopicModel getTopicByUid(String topicUid) {
         Optional<TopicModel> topicModel = topicRepository.findByUid(topicUid);
-        if(topicModel.isEmpty()) {
+        if (topicModel.isEmpty()) {
             throw new TopicNotFountException(topicUid);
         }
         return topicModel.get();
@@ -38,7 +38,8 @@ public class DefaultTopicService implements TopicService {
 
     @Override
     public String getNewUid() {
-        return null;
+        long id = Optional.ofNullable(topicRepository.getMaxUid()).orElse(0L);
+        return String.valueOf(id + 1);
     }
 
     @Override
