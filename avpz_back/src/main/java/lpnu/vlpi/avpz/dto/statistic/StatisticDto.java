@@ -6,7 +6,7 @@ import lpnu.vlpi.avpz.dto.user.MainUserInfoDto;
 
 @Getter
 @Setter
-public class GeneralStatisticDto {
+public class StatisticDto {
     private int totalTaskComplete;
     private float totalTimeOnTasks;
     private float averageTimeOnTasks;

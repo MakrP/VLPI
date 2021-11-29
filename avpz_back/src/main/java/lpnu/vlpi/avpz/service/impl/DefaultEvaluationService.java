@@ -1,16 +1,12 @@
 package lpnu.vlpi.avpz.service.impl;
 
 import lpnu.vlpi.avpz.converter.evaluation.AnswertDtoConverter;
-import lpnu.vlpi.avpz.dao.CategoryRepository;
+import lpnu.vlpi.avpz.converter.evaluation.EvaluationDTO;
 import lpnu.vlpi.avpz.dao.ChosenAnswersRepository;
-import lpnu.vlpi.avpz.dto.result.AnswerDto;
 import lpnu.vlpi.avpz.dto.result.ResultDTO;
-import lpnu.vlpi.avpz.model.ChosenAnswersModel;
-import lpnu.vlpi.avpz.model.TaskModel;
-import lpnu.vlpi.avpz.model.VariantModel;
-import lpnu.vlpi.avpz.service.EvaluationService;
-import lpnu.vlpi.avpz.service.StatisticService;
-import lpnu.vlpi.avpz.service.TaskService;
+import lpnu.vlpi.avpz.model.*;
+import lpnu.vlpi.avpz.service.*;
+import lpnu.vlpi.avpz.service.exceptions.VariantService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +15,22 @@ import java.util.List;
 @Service
 public class DefaultEvaluationService implements EvaluationService {
 
+    private static float MAX_MARK;
     private StatisticService statisticService;
     private TaskService taskService;
-    private ChosenAnswersRepository chosenAnswersRepository;
-    private CategoryRepository categoryRepository;
+    private VariantService variantService;
     private AnswertDtoConverter answertDtoConverter;
+    private UserService userService;
+    private ResultService resultService;
 
-    public DefaultEvaluationService(StatisticService statisticService, TaskService taskService, ChosenAnswersRepository chosenAnswersRepository, CategoryRepository categoryRepository, AnswertDtoConverter answertDtoConverter) {
+    public DefaultEvaluationService(StatisticService statisticService, TaskService taskService, ChosenAnswersRepository chosenAnswersRepository, CategoryService categoryService, VariantService variantService, AnswertDtoConverter answertDtoConverter, UserService userService, ResultService resultService) {
         this.statisticService = statisticService;
         this.taskService = taskService;
-        this.chosenAnswersRepository = chosenAnswersRepository;
-        this.categoryRepository = categoryRepository;
+        this.variantService = variantService;
         this.answertDtoConverter = answertDtoConverter;
+        this.userService = userService;
+        this.resultService = resultService;
     }
-
-    @Value("${task.max_mark}")
-    private static float MAX_MARK;
 
     @Override
     public String getNewUid() {
@@ -47,31 +43,52 @@ public class DefaultEvaluationService implements EvaluationService {
     }
 
     @Override
-    public float evaluate(String userUid ,ResultDTO resultDTO) {
+    public EvaluationDTO evaluate(ResultDTO resultDTO) {
         TaskModel taskModel = taskService.getTaskByUid(resultDTO.getTaskUid());
         List<ChosenAnswersModel> chosenAnswersModels = answertDtoConverter.convert(resultDTO.getAnswers());
-        float mark = getMarkBasedOnAnswers(taskModel, chosenAnswersModels);
-        statisticService.updateUserStatistic(userUid,mark, 0);
-        return mark;
+        int mark = (int) getMarkBasedOnAnswers(taskModel, chosenAnswersModels);
+        ResultModel resultModel = saveResult(resultDTO, chosenAnswersModels, mark);
+        statisticService.updateUserStatistic(resultModel);
+        EvaluationDTO evaluationDTO = new EvaluationDTO();
+        evaluationDTO.setScore(mark);
+        return evaluationDTO;
     }
 
-    public float getMarkBasedOnAnswers(TaskModel taskModel,List<ChosenAnswersModel> chosenAnswers) {
+    public float getMarkBasedOnAnswers(TaskModel taskModel, List<ChosenAnswersModel> chosenAnswers) {
         int totalAnswers = taskModel.getVariants().size();
-        int rightAnswers = getRightAnswersCount(taskModel, chosenAnswers);
-        float res = ((float)rightAnswers / totalAnswers) * MAX_MARK;
+        float rightAnswers = getRightAnswersCount(taskModel, chosenAnswers);
+        float res = (rightAnswers / totalAnswers) * MAX_MARK;
         return res;
     }
 
 
     private int getRightAnswersCount(TaskModel taskModel, List<ChosenAnswersModel> chosenAnswers) {
         int res = 0;
-        for (VariantModel variant : taskModel.getVariants()) {
-            boolean isRight = chosenAnswers.stream().filter(c -> c.getVariants().contains(variant)).findFirst().get().getUid().equals(variant.getCategory().getUid());
-            res =  isRight ? ++res : res;
+        for (ChosenAnswersModel chosenAnswer : chosenAnswers) {
+            CategoryModel categoryModel = chosenAnswer.getCategory();
+            for (VariantModel variant : chosenAnswer.getVariants()) {
+                VariantModel etalonVarian = variantService.getByUid(variant.getUid());
+                if (etalonVarian.getCategory().equals(categoryModel)) {
+                    res++;
+                }
+            }
         }
         return res;
     }
+    @Value("${task.max_mark}")
+    private void setMaxMark(int mark) {
+        MAX_MARK = mark;
+    }
 
-
-
+    private ResultModel saveResult(ResultDTO resultDTO,List<ChosenAnswersModel> chosenAnswers,int mark) {
+        ResultModel resultModel = new ResultModel();
+        resultModel.setUid(resultService.getNewUid());
+        resultModel.setGrade(mark);
+        resultModel.setCompletionTime(resultDTO.getExecutionTime());
+        resultModel.setUser(userService.getUserByUid(resultDTO.getUserUid()));
+        resultModel.setTask(taskService.getTaskByUid(resultDTO.getTaskUid()));
+        resultModel.setCompleted(true);
+        resultModel.setChosenAnswers(chosenAnswers);
+        return resultService.createResult(resultModel);
+    }
 }

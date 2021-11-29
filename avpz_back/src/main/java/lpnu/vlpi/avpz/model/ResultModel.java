@@ -24,6 +24,6 @@ public class ResultModel extends GeneralModel {
     private int grade;
     private int completionTime;
 
-//    @OneToMany(mappedBy = "result")
-//    private List<ChosenAnswersModel> chosenAnswers;
+    @OneToMany(mappedBy = "result")
+    private List<ChosenAnswersModel> chosenAnswers;
 }

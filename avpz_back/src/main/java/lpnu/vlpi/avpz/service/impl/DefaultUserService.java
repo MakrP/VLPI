@@ -99,8 +99,8 @@ public class DefaultUserService implements UserService {
 
     @Override
     public String getNewUid() {
-        return String.valueOf(userRepository.getMaxUid());
-    }
+        long id = Optional.ofNullable(userRepository.getMaxUid()).orElse(0L);
+        return String.valueOf(id);    }
 
     @Override
     public int getPagesCount(long size) {

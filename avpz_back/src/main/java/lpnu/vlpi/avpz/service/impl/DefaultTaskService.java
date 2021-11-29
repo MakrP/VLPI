@@ -64,8 +64,8 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     public String getNewUid() {
-        return String.valueOf(taskRepository.getMaxUid());
-    }
+        long id = Optional.ofNullable(taskRepository.getMaxUid()).orElse(0L);
+        return String.valueOf(id);    }
 
     @Override
     public int getPagesCount(long size) {

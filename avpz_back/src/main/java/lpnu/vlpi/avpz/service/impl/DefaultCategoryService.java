@@ -16,9 +16,14 @@ public class DefaultCategoryService implements CategoryService {
     private CategoryRepository categoryRepository;
 
 
+    public DefaultCategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
     @Override
     public String getNewUid() {
-        return null;
+        long id = Optional.ofNullable(categoryRepository.getMaxUid()).orElse(0L);
+        return String.valueOf(id);
     }
 
     @Override

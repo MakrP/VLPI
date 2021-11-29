@@ -1,14 +1,11 @@
 package lpnu.vlpi.avpz.converter.evaluation;
 
-import lpnu.vlpi.avpz.dao.CategoryRepository;
-import lpnu.vlpi.avpz.dao.ChosenAnswersRepository;
 import lpnu.vlpi.avpz.dto.result.AnswerDto;
 import lpnu.vlpi.avpz.model.CategoryModel;
 import lpnu.vlpi.avpz.model.ChosenAnswersModel;
 import lpnu.vlpi.avpz.model.VariantModel;
 import lpnu.vlpi.avpz.service.CategoryService;
-import lpnu.vlpi.avpz.service.impl.VariantService;
-import org.aspectj.weaver.ast.Var;
+import lpnu.vlpi.avpz.service.exceptions.VariantService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +43,7 @@ public class AnswertDtoConverter implements Converter<List<AnswerDto>, List<Chos
 
     private List<VariantModel> populateVariants(List<AnswerDto> answerDtos) {
         List<VariantModel> variantModels = new ArrayList<>();
-        answerDtos.stream().map(a -> variantService.getByUid(a.getVariantUid())).forEach(variantModels::add);
+        answerDtos.stream().map(a -> variantService.getByUid(a.getUid())).forEach(variantModels::add);
         return variantModels;
     }
 }

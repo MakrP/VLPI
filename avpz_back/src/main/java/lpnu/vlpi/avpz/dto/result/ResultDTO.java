@@ -9,6 +9,8 @@ import java.util.List;
 @Setter
 public class ResultDTO {
     private String taskUid;
+    private String userUid;
     private List<AnswerDto> answers;
     private String level;
+    private int executionTime;
 }

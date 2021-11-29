@@ -23,7 +23,9 @@ public class UserModel extends GeneralModel{
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "user")
-    private List<StatisticModel> userStatisic;
+
+    @OneToOne
+    @JoinColumn(name = "statistic_uid")
+    private StatisticModel statistic;
 
 }

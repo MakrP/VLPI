@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AnswerDto {
-    private String variantUid;
+    private String uid;
     private String categoryUid;
 }

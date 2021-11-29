@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "chosenAnswers", uniqueConstraints = @UniqueConstraint(columnNames = "uid"))
+@Table(name = "ChosenAnswers", uniqueConstraints = @UniqueConstraint(columnNames = "uid"))
 public class ChosenAnswersModel extends GeneralModel {
     @OneToOne
     @JoinColumn(name = "category_uid")
@@ -19,4 +19,7 @@ public class ChosenAnswersModel extends GeneralModel {
     @ElementCollection
     private List<VariantModel> variants;
 
+    @ManyToOne
+    @JoinColumn(name = "result_uid")
+    private ResultModel result;
 }

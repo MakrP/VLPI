@@ -25,16 +25,16 @@ public class EvaluationController {
     @PostMapping
     public ResponseEntity evaluate(@PathVariable("taskUid") String taskUid, @RequestBody ResultDTO resultDTO, HttpSession httpSession) {
         EvaluationDTO evaluationDTO = new EvaluationDTO();
-        evaluationDTO.setScore(57);
+        resultDTO.setTaskUid(taskUid);
+        UserModel currentUser = (UserModel) httpSession.getAttribute("currentUser");
+        resultDTO.setUserUid(currentUser.getUid());
+        float mark = 0;
+        try {
+            evaluationDTO = evaluationService.evaluate(resultDTO);
+        } catch (Exception exception) {
+            return new ResponseEntity<>("Стався піздєц", HttpStatus.I_AM_A_TEAPOT);
+        }
         return new ResponseEntity(evaluationDTO, HttpStatus.OK);
-//        resultDTO.setTaskUid(taskUid);
-//        UserModel currentUser = (UserModel) httpSession.getAttribute("currentUser");
-//        float mark = 0;
-//        try {
-//            mark = evaluationService.evaluate(currentUser.getUid(), resultDTO);
-//        } catch (Exception exception) {
-//            new ResponseEntity<>("Стався піздєц", HttpStatus.I_AM_A_TEAPOT);
-//        }
-//        return new ResponseEntity(mark, HttpStatus.OK);
     }
 }
+

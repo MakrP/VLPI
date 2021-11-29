@@ -22,4 +22,6 @@ public class VariantModel extends GeneralModel {
     private CategoryModel category;
 
     private String tooltip;
+
+
 }

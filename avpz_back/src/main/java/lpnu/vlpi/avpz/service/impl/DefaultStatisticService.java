@@ -1,9 +1,12 @@
 package lpnu.vlpi.avpz.service.impl;
 
 import lpnu.vlpi.avpz.dao.StatisticRepository;
+import lpnu.vlpi.avpz.model.ResultModel;
 import lpnu.vlpi.avpz.model.StatisticModel;
 import lpnu.vlpi.avpz.model.UserModel;
+import lpnu.vlpi.avpz.service.ResultService;
 import lpnu.vlpi.avpz.service.StatisticService;
+import lpnu.vlpi.avpz.service.UserService;
 import lpnu.vlpi.avpz.service.exceptions.StatisticNotFountException;
 import org.springframework.stereotype.Service;
 
@@ -13,72 +16,57 @@ import java.util.Optional;
 public class DefaultStatisticService implements StatisticService {
 
     private StatisticRepository statisticRepository;
+    private UserService userService;
 
-    public DefaultStatisticService(StatisticRepository statisticRepository) {
+    public DefaultStatisticService(StatisticRepository statisticRepository, UserService userService, ResultService resultService) {
         this.statisticRepository = statisticRepository;
+        this.userService = userService;
     }
 
     @Override
-    public StatisticModel getGeneralUserStatistic(String userUid) {
-        Optional<StatisticModel> statisticModelOptional = statisticRepository.findByUserUidAndModuleIsNullAndTaskIsNull(userUid);
+    public StatisticModel getUserStatistic(String userUid) {
+        Optional<StatisticModel> statisticModelOptional = statisticRepository.findByUserUid(userUid);
         if (statisticModelOptional.isEmpty()) {
             throw new StatisticNotFountException();
         }
         return statisticModelOptional.get();
     }
 
+
     @Override
-    public StatisticModel getModuleUserStatistic(String userUid, String moduleUid) {
-        Optional<StatisticModel> statisticModelOptional = statisticRepository.findByUserUidAndModuleUid(userUid, moduleUid);
-        if (statisticModelOptional.isEmpty()) {
-            throw new StatisticNotFountException();
+    public StatisticModel updateUserStatistic(ResultModel resultModel) {
+        UserModel user = userService.getUserByUid(resultModel.getUser().getUid());
+        StatisticModel statisticModel = user.getStatistic();
+        if (statisticModel == null) {
+            statisticModel = createUserStatistic(user);
         }
-        return statisticModelOptional.get();
+        statisticModel.setTotalTaskComplete(statisticModel.getTotalTaskComplete() + 1);
+        updateTime(statisticModel, resultModel);
+        updateMark(statisticModel, resultModel);
+        return statisticModel;
     }
 
-    @Override
-    public StatisticModel getTaskUserStatistic(String userUid, String taskUid) {
-        Optional<StatisticModel> statisticModelOptional = statisticRepository.findByUserUidAndTaskUid(userUid, taskUid);
-        if (statisticModelOptional.isEmpty()) {
-            throw new StatisticNotFountException();
-        }
-        return statisticModelOptional.get();
+    private StatisticModel createUserStatistic(UserModel userModel) {
+        StatisticModel statisticModel = new StatisticModel();
+        statisticModel.setUid(getNewUid());
+        statisticModel.setUser(userModel);
+        return statisticRepository.save(statisticModel);
     }
 
-    @Override
-    public StatisticModel updateUserStatistic(String uid, StatisticModel statistic) {
-        return null;
+    private void updateTime(StatisticModel statisticModel, ResultModel resultModel) {
+        float avarageTime = statisticModel.getAverageTime();
+        statisticModel.setAverageTime((avarageTime + resultModel.getCompletionTime()) / statisticModel.getTotalTaskComplete());
     }
 
-    @Override
-    public StatisticModel updateUserStatistic(String uid, float mark, int executionTime) {
-        return null;
-    }
-
-    @Override
-    public void removeUserGeneralStatistic(UserModel userMode) {
-
-    }
-
-    @Override
-    public void removeUserModuleStatistic(String userUid, String moduleUid) {
-
-    }
-
-    @Override
-    public void removeUserTopicStatistic(String userUid, String topicUid) {
-
-    }
-
-    @Override
-    public void removeUserTaskStatistic(String userUid, String taskUid) {
-
+    private void updateMark(StatisticModel statisticModel, ResultModel resultModel) {
+        float mark = resultModel.getGrade();
+        statisticModel.setAverageMark((mark + statisticModel.getAverageMark()) / statisticModel.getTotalTaskComplete());
     }
 
     @Override
     public String getNewUid() {
-        return null;
-    }
+        long id = Optional.ofNullable(statisticRepository.getMaxUid()).orElse(0L);
+        return String.valueOf(id);    }
 
     @Override
     public int getPagesCount(long size) {

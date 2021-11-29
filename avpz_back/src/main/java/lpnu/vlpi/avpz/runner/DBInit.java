@@ -55,13 +55,9 @@ public class DBInit implements CommandLineRunner {
     private List<StatisticModel> initStatistic(List<UserModel> users, List<TaskModel> tasks) {
         List<StatisticModel> statisticModels = new ArrayList<>();
         StatisticModel statisticModel = new StatisticModel();
-        TaskModel taskModel = tasks.get(0);
         UserModel userModel = users.get(0);
         statisticModel.setAverageMark(1.2f);
         statisticModel.setAverageTime(1.2f);
-//        statisticModel.setModule(taskModel.getModule());
-        statisticModel.setAverageTimeOnTask(1.2f);
-//        statisticModel.setTask(taskModel);
         statisticModel.setTotalTaskComplete(22);
         statisticModel.setUser(userModel);
         statisticModel.setUid("4241241");
