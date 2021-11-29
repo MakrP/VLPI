@@ -5,6 +5,7 @@ import lpnu.vlpi.avpz.converter.evaluation.EvaluationDTO;
 import lpnu.vlpi.avpz.dao.ChosenAnswersRepository;
 import lpnu.vlpi.avpz.dto.result.ResultDTO;
 import lpnu.vlpi.avpz.model.*;
+import lpnu.vlpi.avpz.model.enums.Level;
 import lpnu.vlpi.avpz.service.*;
 import lpnu.vlpi.avpz.service.exceptions.VariantService;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,9 @@ public class DefaultEvaluationService implements EvaluationService {
         TaskModel taskModel = taskService.getTaskByUid(resultDTO.getTaskUid());
         List<ChosenAnswersModel> chosenAnswersModels = answertDtoConverter.convert(resultDTO.getAnswers());
         int mark = (int) getMarkBasedOnAnswers(taskModel, chosenAnswersModels);
+        mark = updateMarkBaseOnLevel(mark, Level.valueOf(resultDTO.getLevel()));
+        mark = updateMarkBaseOnTime(mark, taskModel.getExecutionTime(), resultDTO.getTime());
+        mark = sliceMark(mark);
         ResultModel resultModel = saveResult(resultDTO, chosenAnswersModels, mark);
         statisticService.updateUserStatistic(resultModel);
         EvaluationDTO evaluationDTO = new EvaluationDTO();
@@ -55,11 +59,42 @@ public class DefaultEvaluationService implements EvaluationService {
         return evaluationDTO;
     }
 
-    public float getMarkBasedOnAnswers(TaskModel taskModel, List<ChosenAnswersModel> chosenAnswers) {
+    private int sliceMark(int mark) {
+        if (mark > MAX_MARK) {
+            return (int) MAX_MARK;
+        } else if (mark < 0) {
+            return 0;
+        }
+        return mark;
+    }
+
+    private int updateMarkBaseOnTime(int mark, int wantedTime, int realTime) {
+        if (realTime > wantedTime) {
+            mark /= realTime - wantedTime;
+        } else if (realTime < wantedTime) {
+            mark *= wantedTime - realTime;
+        } else {
+            mark = mark;
+        }
+        return mark;
+    }
+
+    private float getMarkBasedOnAnswers(TaskModel taskModel, List<ChosenAnswersModel> chosenAnswers) {
         int totalAnswers = taskModel.getVariants().size();
         float rightAnswers = getRightAnswersCount(taskModel, chosenAnswers);
         float res = (rightAnswers / totalAnswers) * MAX_MARK;
         return res;
+    }
+
+    private int updateMarkBaseOnLevel(int mark, Level level) {
+        switch (level) {
+            case NORMAL:
+                mark += 2;
+                break;
+            case HARD:
+                mark += 5;
+        }
+        return mark;
     }
 
 
@@ -76,12 +111,13 @@ public class DefaultEvaluationService implements EvaluationService {
         }
         return res;
     }
+
     @Value("${task.max_mark}")
     private void setMaxMark(int mark) {
         MAX_MARK = mark;
     }
 
-    private ResultModel saveResult(ResultDTO resultDTO,List<ChosenAnswersModel> chosenAnswers,int mark) {
+    private ResultModel saveResult(ResultDTO resultDTO, List<ChosenAnswersModel> chosenAnswers, int mark) {
         ResultModel resultModel = new ResultModel();
         resultModel.setUid(resultService.getNewUid());
         resultModel.setGrade(mark);
