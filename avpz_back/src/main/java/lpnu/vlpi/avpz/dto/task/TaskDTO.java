@@ -12,4 +12,5 @@ public class TaskDTO {
     private List<CategoryDTO> categoryDtos;
     private String level;
     private int time;
+    private String name;
 }

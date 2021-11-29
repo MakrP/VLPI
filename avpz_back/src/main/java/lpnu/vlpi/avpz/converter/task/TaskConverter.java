@@ -40,6 +40,7 @@ public class TaskConverter implements Converter<TaskModel, TaskDTO> {
         taskDTO.setVariantDTOList(variantDTOS);
         taskDTO.setLevel(source.getLevel().toString());
         taskDTO.setTime(source.getExecutionTime());
+        taskDTO.setName(source.getDisplayName());
         return taskDTO;
     }
 }
