@@ -2,6 +2,7 @@ package lpnu.vlpi.avpz.converter.task;
 
 import lpnu.vlpi.avpz.dto.task.TaskDTO;
 import lpnu.vlpi.avpz.dto.task.TaskPreviewDTO;
+import lpnu.vlpi.avpz.dto.task.enums.TaskStatus;
 import lpnu.vlpi.avpz.model.ResultModel;
 import lpnu.vlpi.avpz.model.TaskModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class ResultConverter implements Converter<ResultModel, TaskPreviewDTO> {
         TaskPreviewDTO dto = taskConverter.convert(source.getTask());
         dto.setCompletionDate(simpleDateFormat.format(source.getCompletitionDate()));
         dto.setGrade(source.getGrade());
+        dto.setTaskStatus(source.isCompleted() ? TaskStatus.FINISHED.getStatus() : TaskStatus.NOT_STARTED.getStatus());
         return dto;
     }
 }

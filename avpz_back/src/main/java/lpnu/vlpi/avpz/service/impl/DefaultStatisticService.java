@@ -1,6 +1,7 @@
 package lpnu.vlpi.avpz.service.impl;
 
 import lpnu.vlpi.avpz.dao.StatisticRepository;
+import lpnu.vlpi.avpz.dao.UserRepository;
 import lpnu.vlpi.avpz.model.ResultModel;
 import lpnu.vlpi.avpz.model.StatisticModel;
 import lpnu.vlpi.avpz.model.UserModel;
@@ -18,10 +19,12 @@ public class DefaultStatisticService implements StatisticService {
 
     private StatisticRepository statisticRepository;
     private UserService userService;
+    private UserRepository userRepository;
 
-    public DefaultStatisticService(StatisticRepository statisticRepository, UserService userService, ResultService resultService) {
+    public DefaultStatisticService(StatisticRepository statisticRepository, UserService userService, ResultService resultService, UserRepository userRepository) {
         this.statisticRepository = statisticRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -37,14 +40,16 @@ public class DefaultStatisticService implements StatisticService {
     @Override
     public StatisticModel updateUserStatistic(ResultModel resultModel) {
         UserModel user = userService.getUserByUid(resultModel.getUser().getUid());
-        StatisticModel statisticModel = user.getStatistic();
+        StatisticModel statisticModel = getUserStatistic(user.getUid());
         if (statisticModel == null) {
             statisticModel = createUserStatistic(user);
         }
         statisticModel.setTotalTaskComplete(statisticModel.getTotalTaskComplete() + 1);
         updateTime(statisticModel, resultModel);
         updateMark(statisticModel, resultModel);
-        statisticRepository.save(statisticModel);
+        statisticModel = statisticRepository.save(statisticModel);
+        user.setStatistic(statisticModel);
+        userRepository.save(user);
         return statisticModel;
     }
 
@@ -73,7 +78,9 @@ public class DefaultStatisticService implements StatisticService {
     @Override
     public String getNewUid() {
         long id = Optional.ofNullable(statisticRepository.getMaxUid()).orElse(0L);
-        return String.valueOf(id + 1);    }
+        return String.valueOf(id + 1);
+    }
+
 
     @Override
     public int getPagesCount(long size) {
