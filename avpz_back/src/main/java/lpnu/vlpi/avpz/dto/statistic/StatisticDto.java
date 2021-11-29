@@ -12,5 +12,7 @@ public class StatisticDto {
     private float totalTimeOnTasks;
     private float averageTimeOnTasks;
     private float averageMark;
-    private UserModel user;
+    private String username;
+    private String uuid;
+
 }
