@@ -48,14 +48,15 @@ public class DefaultEvaluationService implements EvaluationService {
     public EvaluationDTO evaluate(ResultDTO resultDTO) {
         TaskModel taskModel = taskService.getTaskByUid(resultDTO.getTaskUid());
         List<ChosenAnswersModel> chosenAnswersModels = answertDtoConverter.convert(resultDTO.getAnswers());
-        int mark = (int) getMarkBasedOnAnswers(taskModel, chosenAnswersModels);
+        float mark =  getMarkBasedOnAnswers(taskModel, chosenAnswersModels);
         mark = updateMarkBaseOnLevel(mark, Level.valueOf(resultDTO.getLevel()));
-        mark = updateMarkBaseOnTime(mark, taskModel.getExecutionTime(), resultDTO.getTime());
-        mark = sliceMark(mark);
-        ResultModel resultModel = saveResult(resultDTO, chosenAnswersModels, mark);
+        int finalMark = (int)updateMarkBaseOnTime(mark, taskModel.getExecutionTime(), resultDTO.getTime());
+
+        finalMark = sliceMark(finalMark);
+        ResultModel resultModel = saveResult(resultDTO, chosenAnswersModels, finalMark);
         statisticService.updateUserStatistic(resultModel);
         EvaluationDTO evaluationDTO = new EvaluationDTO();
-        evaluationDTO.setScore(mark);
+        evaluationDTO.setScore(finalMark);
         return evaluationDTO;
     }
 
@@ -68,11 +69,11 @@ public class DefaultEvaluationService implements EvaluationService {
         return mark;
     }
 
-    private int updateMarkBaseOnTime(int mark, int wantedTime, int realTime) {
+    private float updateMarkBaseOnTime(float mark, float wantedTime, float realTime) {
         if (realTime > wantedTime) {
-            mark /= realTime - wantedTime;
+            mark /= ((realTime - wantedTime) / 100);
         } else if (realTime < wantedTime) {
-            mark *= wantedTime - realTime;
+            mark *= ((realTime - wantedTime) / 100);
         } else {
             mark = mark;
         }
@@ -86,7 +87,7 @@ public class DefaultEvaluationService implements EvaluationService {
         return res;
     }
 
-    private int updateMarkBaseOnLevel(int mark, Level level) {
+    private float updateMarkBaseOnLevel(float mark, Level level) {
         switch (level) {
             case NORMAL:
                 mark += 2;
