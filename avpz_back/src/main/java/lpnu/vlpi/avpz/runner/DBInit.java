@@ -83,6 +83,7 @@ public class DBInit implements CommandLineRunner {
 //        (13, 13, 'The name of the program should be "Bets Text Editor"', 3, 8, 'The requirement is small and inconsequential'),
 //        (14, 14, 'User can insert png files in the text', 3, 6, 'This functionality will be user a lot, so high priority');
 
+
         VariantModel variantModel111 = new VariantModel();
         variantModel111.setUid("1");
         variantModel111.setDisplayName("Calculator should be able to raise numbers to a power");
