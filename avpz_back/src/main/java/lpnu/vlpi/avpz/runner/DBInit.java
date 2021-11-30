@@ -142,6 +142,7 @@ public class DBInit implements CommandLineRunner {
         task1.setModule(task1.getTopic().getModule());
         task1.setCreateTime(new Date());
         task1.setModifiedTime(new Date());
+        task1.setExecutionTime(30);
         tasks.add(taskRepository.save(task1));
 
         TaskModel task2 = new TaskModel();
@@ -152,6 +153,7 @@ public class DBInit implements CommandLineRunner {
         task2.setModule(task2.getTopic().getModule());
         task2.setCreateTime(new Date());
         task2.setModifiedTime(new Date());
+        task2.setExecutionTime(30);
         tasks.add(taskRepository.save(task2));
 
 
@@ -163,6 +165,7 @@ public class DBInit implements CommandLineRunner {
         task3.setModule(task3.getTopic().getModule());
         task3.setCreateTime(new Date());
         task3.setModifiedTime(new Date());
+        task3.setExecutionTime(30);
         tasks.add(taskRepository.save(task3));
 
         return tasks;
